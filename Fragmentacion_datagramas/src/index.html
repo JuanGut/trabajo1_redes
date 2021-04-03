@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragmentación</title>
+    <script src='Source.js'></script>
+    <link rel="stylesheet" href="estilos.css"
+</head>
+<body>
+
+    <form name="datosInicio" class="datosI">
+        <label for="unidadMaximaTransferenciaRed">Unidad maxima de trasferencia de red (MTU)</label>
+        <input type="number" name ="mtu" id="mtu" />
+        <br/>
+        <label for="longitudTotalDatagrama">Longitud total del datagrama</label>
+        <input type="number" name = "longitudDatagrama" id="longitudDatagrama" />
+        <br/>
+        <form name="protocoloNivelSuperior">
+            <label for="tipoProtocolo">Seleccione el tipo de protocolo de nivel superior:</label>
+            <br>
+            <input type="radio" id="ICMP" name="GrouprotocolNS" value="ICMP"/>
+            <label for="ICMP">ICMP</label><br/>
+            <input type="radio" id="TCP" name="GrouprotocolNS" value="TCP"/>
+            <label for="TCP">TCP</label><br/>
+            <input type="radio" id="UDP" name="GrouprotocolNS" value="UDP"/>
+            <label for="UDP">UDP</label><br/>
+        </form>
+        <label for="direccionIpOrigen">Dirección origen </label>
+        <input type="text" name ="direccionOrigen" id="direccionOrigen" />
+        <br/>
+        <label for="direccionIpDestino">Dirección destino </label>
+        <input type="text" name ="direccionDestino" id="direccionDestino" />
+        <br/>
+        <br/>
+        <br/>
+    </form>
+    <button type="button" onclick="cargarDatos()">Cargar datos</button>
+
+</body>
+</html>
