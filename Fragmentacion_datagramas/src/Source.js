@@ -160,6 +160,7 @@ function validarFragmentacion ()
     }
     // Definir el codigo para cuando no es necesario realizar una fragmentacion
     else{
+        
 
     }
 }

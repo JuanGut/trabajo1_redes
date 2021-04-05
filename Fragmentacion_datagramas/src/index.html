@@ -10,32 +10,38 @@
 <body>
 
     <form name="datosInicio" class="datosI">
-        <label for="unidadMaximaTransferenciaRed">Unidad maxima de trasferencia de red (MTU)</label>
-        <input type="number" name ="mtu" id="mtu" />
-        <br/>
-        <label for="longitudTotalDatagrama">Longitud total del datagrama</label>
-        <input type="number" name = "longitudDatagrama" id="longitudDatagrama" />
-        <br/>
-        <form name="protocoloNivelSuperior">
-            <label for="tipoProtocolo">Seleccione el tipo de protocolo de nivel superior:</label>
-            <br>
-            <input type="radio" id="ICMP" name="GrouprotocolNS" value="ICMP"/>
-            <label for="ICMP">ICMP</label><br/>
-            <input type="radio" id="TCP" name="GrouprotocolNS" value="TCP"/>
-            <label for="TCP">TCP</label><br/>
-            <input type="radio" id="UDP" name="GrouprotocolNS" value="UDP"/>
-            <label for="UDP">UDP</label><br/>
-        </form>
-        <label for="direccionIpOrigen">Dirección origen </label>
-        <input type="text" name ="direccionOrigen" id="direccionOrigen" />
-        <br/>
-        <label for="direccionIpDestino">Dirección destino </label>
-        <input type="text" name ="direccionDestino" id="direccionDestino" />
+        <label for="unidadMaximaTransferenciaRed">Unidad maxima de trasferencia de red (MTU):</label>
+        <input type="number" name ="mtu" id="mtu" placeholder="mtu"/>
         <br/>
         <br/>
+        <label for="longitudTotalDatagrama">Longitud total del datagrama:</label>
+        <input type="number" name = "longitudDatagrama" id="longitudDatagrama" placeholder="long.Datagrama"/>
         <br/>
+        <br/>
+           
+        <label for="tipoProtocolo">Seleccione el tipo de protocolo de nivel superior:</label>
+        <br>
+        <input type="radio" id="ICMP" name="GrouprotocolNS" value="ICMP"/>
+        <label for="ICMP">ICMP</label><br/>
+        <input type="radio" id="TCP" name="GrouprotocolNS" value="TCP"/>
+        <label for="TCP">TCP</label><br/>
+        <input type="radio" id="UDP" name="GrouprotocolNS" value="UDP"/>
+        <label for="UDP">UDP</label><br/><br/>
+        
+        <label for="direccionIpOrigen">Dirección origen: </label>
+        <br/>
+        <input type="text" name ="direccionOrigen" id="direccionOrigen" placeholder="Direccion origen"/>
+        <br/>
+        <br/>
+        <label for="direccionIpDestino">Dirección destino: </label>
+        <br/>
+        <input type="text" name ="direccionDestino" id="direccionDestino" placeholder="Direccion destino"/>
+        <br/>
+        <br/> 
+        <br/>
+        <button type="button" onclick="cargarDatos()">Cargar datos</button>
     </form>
-    <button type="button" onclick="cargarDatos()">Cargar datos</button>
+    
 
 </body>
 </html>
