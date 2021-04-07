@@ -23,10 +23,24 @@ var flag1 = 0, flag2 = 0,flag3 = 0, desplazamiento,sumaComprobacion = 0, longitu
 class Datagrama {
 
 
-    constructor(mtu, longitudDatagrama,protocolo, direccionOrigen,direccionDestino, identificacion,
+    /**
+     * Metodo constructor de la clase Datagrama
+     * @param {*} longitudDatagrama Longitud del datagrama
+     * @param {*} protocolo Tipo de protocolo del datagrama
+     * @param {*} direccionOrigen Direccion origen del datagrama
+     * @param {*} direccionDestino Direccion destino del datagrama
+     * @param {*} identificacion Identificacion del datagrama
+     * @param {*} tiempoVida Tiempo de vida 
+     * @param {*} flag1 Flag 1
+     * @param {*} flag2 Flag 2
+     * @param {*} flag3 Flag de mas fragmentos
+     * @param {*} desplazamiento Desplazamiento 
+     * @param {*} sumaComprobacion Suma de comprobacion
+     */
+    constructor(longitudDatagrama,protocolo, direccionOrigen,direccionDestino, identificacion,
                 tiempoVida ,flag1, flag2,flag3, desplazamiento,sumaComprobacion)
     {
-        this.mtu = mtu;
+        
         this.longitudDatagrama = longitudDatagrama;
         this.protocolo = protocolo;
         this.direccionOrigen = direccionOrigen;
@@ -146,7 +160,7 @@ function validarFragmentacion ()
             }
 
 
-            datagrama = new Datagrama(mtu, longitudFragmento,protocolo, direccionOrigen,direccionDestino, identificacion,
+            datagrama = new Datagrama(longitudFragmento,protocolo, direccionOrigen,direccionDestino, identificacion,
                                          tiempoVida , flag1, flag2,flag3, desplazamiento,sumaComprobacion);
 
         
