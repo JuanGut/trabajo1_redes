@@ -19,13 +19,37 @@ body {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 
 }
-.datosR{
+.datosD{
 
   position: relative;
   background:#FFFFFF;
   max-width: 360px;
   margin: 0 auto 100px;
-  margin-top: -576px;
+  margin-top: -620px;
+  margin-right: 150px;
+  padding: 45px;
+  text-align:left;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.datosH{
+
+  position: relative;
+  background:#ffffff;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  margin-right: 150px;
+  padding: 45px;
+  text-align:left;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.datosB{
+
+  position: relative;
+  background:#ffffff;
+  max-width: 360px;
+  margin: 0 auto 100px;
   margin-right: 150px;
   padding: 45px;
   text-align:left;
