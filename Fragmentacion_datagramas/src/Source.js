@@ -16,6 +16,9 @@ identificacion,tiempoVida;
  */
 var flag1 = 0, flag2 = 0,flag3 = 0, desplazamiento,sumaComprobacion = 0, longitudFragmento;
 
+/**
+ * Comentario prieba
+ */
 
 /**
  * Clase que representa el encabezado de un datagrama
