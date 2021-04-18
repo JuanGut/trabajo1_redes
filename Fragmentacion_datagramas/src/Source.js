@@ -4,6 +4,7 @@
  */
 var listaFragmentos = new Array;
 var listaFragmentosBinario = new Array;
+var listaFragmentosDecimal = new Array;
 var transformacionBinario = [128,64,32,16,8,4,2,1];
 
 /**
@@ -63,7 +64,21 @@ class Datagrama {
         this.sumaComprobacion = sumaComprobacion;
     }
 
-    
+                /**
+                 * Metodo para imprimir los valores de la clase Datagrama
+                 * @returns Cadena con los atributos de la clase Datagrama
+                 */
+                toString()
+                {
+                    return "Version :" +  this.version +  " Longitud del encabezado : " + this.longitudEncabezado 
+                            + " Servicios diferenciados : 0 " + "Longitud total : " + this.longitudDatagrama 
+                            + "\n"+ " Identificacion : " + this.identificacion + " Reservado : " + this.flag1 
+                            + " No fragmentar : " + this.flag2 + " Mas fragmentos : " + this.flag3 
+                            + " Desplazamiento : "+ this.desplazamiento + "\n"+ "Tiempo de vida : " 
+                            + this.tiempoVida + " Protocolo : " +this.protocolo + " Suma Comprobacion : " 
+                            + this.sumaComprobacion + "\n"+ "Direccion ip Origen : " + direccionOrigen 
+                            + " Direccion ip Destino : " + direccionDestino;
+                }  
     
     
 
@@ -159,7 +174,8 @@ function validarFragmentacion ()
             
         }
       
-        imprimirFragmentoDecimal()
+        transformarFragmentoDecimal();
+        imprimirFragmentosDecimal();
        
     }
     // Definir el codigo para cuando no es necesario realizar una fragmentacion
@@ -169,41 +185,44 @@ function validarFragmentacion ()
     }
 }
 
+
+
 /**
- * Metodo para imprimir por consola la informacion de los fragmentos 
+ * Metodo para transformar la informacion de los fragmentos en decimal
  */
-function imprimirFragmentoDecimal()
+function transformarFragmentoDecimal()
 {
 
+    datagrama = "";
     for (let index = 0; index < listaFragmentos.length; index++) 
     {
-        
-        console.log((listaFragmentos[index]).toString())    
+       datagrama = listaFragmentos[index].toString();
+       listaFragmentosDecimal.push(datagrama);
     }
 
-
 }
+
+function imprimirFragmentosDecimal()
+{
+
+    aux = "";
+    for (let index = 0; index < listaFragmentosDecimal.length; index++) 
+    {
+      
+       aux += "Datagrama " + (index+1) + "\n\n" + listaFragmentosDecimal[index] + "\n\n";
+    }
+
+    document.getElementById('campoDecimalParrafo').innerHTML = aux ;
+    console.log(aux);
+}
+
 function imprimirFragmentoHexa()
 {
  
 
 }
 
-/**
-     * Metodo para imprimir los valores de la clase Datagrama
-     * @returns Cadena con los atributos de la clase Datagrama
-     */
- toString()
- {
-     return "Version :" +  this.version +  " Longitud del encabezado : " + this.longitudEncabezado 
-             + " Servicios diferenciados : 0 " + "Longitud total : " + this.longitudDatagrama 
-             + "\n"+ " Identificacion : " + this.identificacion + " Reservado : " + this.flag1 
-             + " No fragmentar : " + this.flag2 + " Mas fragmentos : " + this.flag3 
-             + " Desplazamiento : "+ this.desplazamiento + "\n"+ "Tiempo de vida : " 
-             + this.tiempoVida + " Protocolo : " +this.protocolo + " Suma Comprobacion : " 
-             + this.sumaComprobacion + "\n"+ "Direccion ip Origen : " + direccionOrigen 
-             + " Direccion ip Destino : " + direccionDestino;
- }
+
 
 function imprimirFragmentobinario()
 {
@@ -214,8 +233,7 @@ function imprimirFragmentobinario()
          listaFragmentos[index].longitudEncabezado.calcularBinario + 
          listaFragmentos[index].longitudDatagrama.calcularBinario +
          listaFragmentos[index].identificacion.calcularBinario  +
-         listaFragmentos[index].longitudEncabezado.calcularBinario flag1 +
-         ;
+         listaFragmentos[index].longitudEncabezado.calcularBinario + flag1 ;
 
     }
 }
