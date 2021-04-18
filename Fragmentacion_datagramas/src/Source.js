@@ -3,6 +3,9 @@
  * Lista en donde se almacenas los fragmentos en caso de que exista fragmentacion
  */
 var listaFragmentos = new Array;
+var listaFragmentosBinario = new Array;
+var listaFragmentosDecimal = new Array;
+var transformacionBinario = [128,64,32,16,8,4,2,1];
 
 /**
  * Variables globales para la recoleccion de la informacion del datagrama inicial
@@ -10,12 +13,14 @@ var listaFragmentos = new Array;
 var mtu, longitudDatagrama,protocolo , direccionOrigen,direccionDestino,
 identificacion,tiempoVida;
 
-
 /**
  * Variables globales para la definicion de los fragmentos
  */
 var flag1 = 0, flag2 = 0,flag3 = 0, desplazamiento,sumaComprobacion = 0, longitudFragmento;
 
+/**
+ * Comentario prieba
+ */
 
 /**
  * Clase que representa el encabezado de un datagrama
@@ -59,21 +64,21 @@ class Datagrama {
         this.sumaComprobacion = sumaComprobacion;
     }
 
-    /**
-     * Metodo para imprimir los valores de la clase Datagrama
-     * @returns Cadena con los atributos de la clase Datagrama
-     */
-    toString()
-    {
-        return "Version :" +  this.version +  " Longitud del encabezado : " + this.longitudEncabezado 
-                + " Servicios diferenciados : 0 " + "Longitud total : " + this.longitudDatagrama 
-                + "\n"+ " Identificacion : " + this.identificacion + " Reservado : " + this.flag1 
-                + " No fragmentar : " + this.flag2 + " Mas fragmentos : " + this.flag3 
-                + " Desplazamiento : "+ this.desplazamiento + "\n"+ "Tiempo de vida : " 
-                + this.tiempoVida + " Protocolo : " +this.protocolo + " Suma Comprobacion : " 
-                + this.sumaComprobacion + "\n"+ "Direccion ip Origen : " + direccionOrigen 
-                + " Direccion ip Destino : " + direccionDestino;
-    }
+                /**
+                 * Metodo para imprimir los valores de la clase Datagrama
+                 * @returns Cadena con los atributos de la clase Datagrama
+                 */
+                toString()
+                {
+                    return "Version :" +  this.version +  " Longitud del encabezado : " + this.longitudEncabezado 
+                            + " Servicios diferenciados : 0 " + "Longitud total : " + this.longitudDatagrama 
+                            + "\n"+ " Identificacion : " + this.identificacion + " Reservado : " + this.flag1 
+                            + " No fragmentar : " + this.flag2 + " Mas fragmentos : " + this.flag3 
+                            + " Desplazamiento : "+ this.desplazamiento + "\n"+ "Tiempo de vida : " 
+                            + this.tiempoVida + " Protocolo : " +this.protocolo + " Suma Comprobacion : " 
+                            + this.sumaComprobacion + "\n"+ "Direccion ip Origen : " + direccionOrigen 
+                            + " Direccion ip Destino : " + direccionDestino;
+                }  
     
     
 
@@ -169,7 +174,8 @@ function validarFragmentacion ()
             
         }
       
-        imprimirFragmentoDecimal()
+        transformarFragmentoDecimal();
+        imprimirFragmentosDecimal();
        
     }
     // Definir el codigo para cuando no es necesario realizar una fragmentacion
@@ -179,21 +185,22 @@ function validarFragmentacion ()
     }
 }
 
+
+
 /**
- * Metodo para imprimir por consola la informacion de los fragmentos 
+ * Metodo para transformar la informacion de los fragmentos en decimal
  */
-function imprimirFragmentoDecimal()
+function transformarFragmentoDecimal()
 {
 
+    datagrama = "";
     for (let index = 0; index < listaFragmentos.length; index++) 
     {
-        
-        console.log((listaFragmentos[index]).toString())    
+       datagrama = listaFragmentos[index].toString();
+       listaFragmentosDecimal.push(datagrama);
     }
-    
 
 }
-
 /**
  * Metodo para encontrar el valor de la suma de comprobacion 
  */
@@ -228,6 +235,58 @@ function convertirHexa(cadena)
         hex += ''+str.charCodeAt(i).toString(16);
     }
     return hex;
+}
+function imprimirFragmentosDecimal()
+{
+
+    aux = "";
+    for (let index = 0; index < listaFragmentosDecimal.length; index++) 
+    {
+      
+       aux += "Datagrama " + (index+1) + "\n\n" + listaFragmentosDecimal[index] + "\n\n";
+    }
+
+    document.getElementById('campoDecimalParrafo').innerHTML = aux ;
+    console.log(aux);
+}
+
+function imprimirFragmentoHexa()
+{
+ 
+
+}
+
+function imprimirFragmentobinario()
+{
+    var fragmentosB;
+    for(let index = 0; index < listaFragmentos.length; index)
+    {
+        fragmentosB = listaFragmentos[index].version.calcularBinario +
+         listaFragmentos[index].longitudEncabezado.calcularBinario + 
+         listaFragmentos[index].longitudDatagrama.calcularBinario +
+         listaFragmentos[index].identificacion.calcularBinario  +
+         listaFragmentos[index].longitudEncabezado.calcularBinario + flag1 ;
+
+    }
+}
+function  calcularBinario(version)
+{
+		var sum = 0;
+		var cadena = "";
+		for(var i = 0 ; i < transformacion.length ;i++)
+		{
+			if((transformacion[i] + sum) <= decimal)
+			{
+				sum += transformacion[i];
+				cadena+="1";
+			}
+			else
+			{
+				cadena+="0";
+			}
+		}
+		
+		return cadena;
 }
 
 
