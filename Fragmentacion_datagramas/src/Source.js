@@ -9,7 +9,7 @@ var listaFragmentos = new Array;
  */
 var mtu, longitudDatagrama,protocolo , direccionOrigen,direccionDestino,
 identificacion,tiempoVida;
-// holaaaa
+
 
 /**
  * Variables globales para la definicion de los fragmentos
