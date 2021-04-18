@@ -194,4 +194,40 @@ function imprimirFragmentoDecimal()
 
 }
 
+/**
+ * Metodo para encontrar el valor de la suma de comprobacion 
+ */
+function encontrarSumaComprobacion(listaHexadecimal)
+{
+    var cadena="";
+
+    for(let i=0;i<listaHexadecimal.length;i++){
+
+        if((cadena.length%4)=0)
+        {
+            cadena+=":";
+        }
+        else
+        {
+            cadena+=listaHexadecimal[i];
+        }
+    }
+
+    
+    
+
+
+
+
+}
+
+function convertirHexa(cadena)
+{
+    var hex = '';
+    for(let i=0;i<str.length;i++) {
+        hex += ''+str.charCodeAt(i).toString(16);
+    }
+    return hex;
+}
+
 
