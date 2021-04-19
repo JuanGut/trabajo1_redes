@@ -202,7 +202,9 @@ function transformarFragmentoDecimal()
 
 }
 /**
- * Metodo para encontrar el valor de la suma de comprobacion 
+ * Metodo para convertir el datagrama en grupos de 16 bits con el fin de poder hacer la suma de comprobacion
+ * @param {Arraylist con cada parte del datagrama en formato hexadecimal} listaHexadecimal 
+ * @returns suma de comprovacion 
  */
 function encontrarSumaComprobacion(listaHexadecimal)
 {
@@ -219,13 +221,44 @@ function encontrarSumaComprobacion(listaHexadecimal)
             cadena+=listaHexadecimal[i];
         }
     }
+    var arrayFracmentosSuma=cadena.split(":");
 
-    
-    
+    var suma=realizarSuma(arrayFracmentosSuma);
+
+    return suma;
 
 
+}
 
+/**
+ * Metodo para realizar la suma de comprobacion por medio del arraylist de 16 bits en cada posicion
+ * @param {Arraylist dividido de a 16 bits por posicion } arrayFracmentosSuma 
+ * @returns La suma de comprobacion
+ */
 
+function realizarSuma(arrayFracmentosSuma)
+{
+    for(var i=0;i<arrayFracmentosSuma-1;i++)
+    {
+        if(arrayFracmentosSuma[i].length>4)
+        {
+            var fracmento=arrayFracmentosSuma[i];
+
+            var parte1=fracmento.substring(0,1);
+            var parte2=fracmento.substring(1);
+
+            var suma=parte1+parte2;
+
+            arrayFracmentosSuma[i]=suma;
+        }
+        else
+        {
+            var sum=arrayFracmentosSuma[i]+arrayFracmentosSuma[i+1];
+            arrayFracmentosSuma[i+1]=sum;
+        }
+
+    }
+    return arrayFracmentosSuma[arrayFracmentosSuma.length-1];
 }
 
 function convertirHexa(cadena)
