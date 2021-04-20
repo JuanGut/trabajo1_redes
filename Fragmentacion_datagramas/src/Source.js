@@ -5,6 +5,7 @@
 var listaFragmentos = new Array;
 var listaFragmentosBinario = new Array;
 var listaFragmentosDecimal = new Array;
+var listaFragmentosHexa= new Array;
 var transformacionBinario = [128,64,32,16,8,4,2,1];
 
 /**
@@ -55,7 +56,7 @@ class Datagrama {
 
         this.version = 4;
         this.longitudEncabezado = 5;
-        this.serviciosD = 0;
+        this.serviciosD = "0";
 
         this.flag1 = flag1;
         this.flag2 = flag2;
@@ -103,6 +104,7 @@ function cargarDatos()
     desplazamiento = 0;
     protocolo = definirProticolo();
 
+    console.log("Hola mundo")
     validarFragmentacion();
 
 }
@@ -174,8 +176,13 @@ function validarFragmentacion ()
             
         }
       
+        
         transformarFragmentoDecimal();
         imprimirFragmentosDecimal();
+
+        convertirAHexadecimal();
+        completarHexadecimal();
+        imprimirHexadecimal();
        
     }
     // Definir el codigo para cuando no es necesario realizar una fragmentacion
@@ -212,7 +219,7 @@ function encontrarSumaComprobacion(listaHexadecimal)
 
     for(let i=0;i<listaHexadecimal.length;i++){
 
-        if((cadena.length%4)=0)
+        if((cadena.length%4)==0)
         {
             cadena+=":";
         }
@@ -278,17 +285,9 @@ function imprimirFragmentosDecimal()
       
        aux += "Datagrama " + (index+1) + "\n\n" + listaFragmentosDecimal[index] + "\n\n";
     }
-
     document.getElementById('campoDecimalParrafo').innerHTML = aux ;
-    console.log(aux);
+    console.log(aux)
 }
-
-function imprimirFragmentoHexa()
-{
- 
-
-}
-
 function imprimirFragmentobinario()
 {
     var fragmentosB;
@@ -321,5 +320,106 @@ function  calcularBinario(version)
 		
 		return cadena;
 }
+
+function convertirAHexadecimal(){
+    var longitudFragmentoHexa;
+    var protocoloHexa;
+    var direccionDestinoHexa="";
+    var direccionOrigenHexa="";
+    var identificacionHexa;
+    var tiempoVidaHexa;
+    var desplazamientoHexa;
+    var sumaComprobacionHexa;
+  
+    for (let index = 0; index<listaFragmentos.length; index++) 
+    {
+        longitudFragmentoHexa=listaFragmentos[index].longitudDatagrama.toString(16);
+        protocoloHexa=listaFragmentos[index].protocolo.toString(16);
+        var direccionDes=listaFragmentos[index].direccionDestino.split(".");
+        var direccionOrg=listaFragmentos[index].direccionOrigen.split(".");
+        console.log(direccionDes.length);
+        for(let index2=0; index2<direccionDes.length ; index2++){
+            direccionDestinoHexa+=direccionDes[index2].toString(16);
+            console.log(direccionDestinoHexa)
+            direccionOrigenHexa+=direccionOrg[index2].toString(16);
+        }
+        identificacionHexa=listaFragmentos[index].identificacion.toString(16);
+        tiempoVidaHexa=listaFragmentos[index].tiempoVida.toString(16);
+        desplazamientoHexa=listaFragmentos[index].desplazamiento.toString(16)
+        sumaComprobacionHexa=listaFragmentos[index].sumaComprobacion.toString(16);
+
+    }
+
+    datagrama = new Datagrama(longitudFragmentoHexa,protocoloHexa, direccionOrigenHexa,direccionDestinoHexa, identificacionHexa,
+    tiempoVidaHexa,flag1,flag2,flag3,desplazamientoHexa,sumaComprobacionHexa);
+
+    listaFragmentosHexa.push(datagrama);
+}
+
+function imprimirHexadecimal(){
+    var aux="";
+    for (let index = 0; index < listaFragmentosHexa.length; index++) 
+    {
+    aux="Datagrama "+(index+1)+":\n"+listaFragmentosHexa[index].version+""+listaFragmentosHexa[index].longitudEncabezado+" "
+    +listaFragmentosHexa[index].serviciosD+" "+listaFragmentosHexa[index].longitudDatagrama.substring(0,2)+" "
+    +listaFragmentosHexa[index].longitudDatagrama.substring(2,)+"\n"+listaFragmentosHexa[index].identificacion.substring(0,2)+ " "
+    +listaFragmentosHexa[index].identificacion.substring(2,)+" "+listaFragmentosHexa[index].desplazamiento.substring(0,2)+""
+    +listaFragmentosHexa[index].desplazamiento.substring(2,)+"\n"+listaFragmentosHexa[index].tiempoVida+" " +listaFragmentosHexa[index].protocolo+" "+listaFragmentosHexa[index].sumaComprobacion.substring(0,2)+" "
+    +listaFragmentosHexa[index].sumaComprobacion.substring(2,)+"\n"+listaFragmentosHexa[index].direccionOrigen.substring(0,2)+" "
+    +listaFragmentosHexa[index].direccionOrigen.substring(2,4)+" "+listaFragmentosHexa[index].direccionOrigen.substring(4,6)+" "
+    +listaFragmentosHexa[index].direccionOrigen.substring(6,)+"\n"+listaFragmentosHexa[index].direccionDestino.substring(0,2)+" "
+    +listaFragmentosHexa[index].direccionDestino.substring(2,4)+" "+listaFragmentosHexa[index].direccionDestino.substring(4,6)+" "
+    +listaFragmentosHexa[index].direccionDestino.substring(6,);
+
+    }
+    document.getElementById('campoHexa').innerHTML = aux ;
+    console.log(aux);    
+
+}
+function completarHexadecimal(){
+    for (let index = 0; index < listaFragmentosHexa.length; index++) 
+    {
+        if(listaFragmentosHexa[index].longitudDatagrama.length<4){
+            for(let index1 =0;index1 <= 4-listaFragmentosHexa[index].longitudDatagrama.length;index1++){
+                listaFragmentosHexa[index].longitudDatagrama="0"+listaFragmentosHexa[index].longitudDatagrama;
+            }
+        }
+        if(listaFragmentosHexa[index].identificacion.length<4){
+            for(let index1 =0;index1 <=4-listaFragmentosHexa[index].identificacion.length;index1++){
+                listaFragmentosHexa[index].identificacion="0"+listaFragmentosHexa[index].identificacion;
+            }
+        }
+        if(listaFragmentosHexa[index].desplazamiento.length<4){
+            for(let index1 =0;index1 <=4-listaFragmentosHexa[index].desplazamiento.length;index1++){
+                listaFragmentosHexa[index].desplazamiento="0"+listaFragmentosHexa[index].desplazamiento;
+            }
+        }
+        if(listaFragmentosHexa[index].tiempoVida.length<2){
+            for(let index1 =0;index1 <= 2-listaFragmentosHexa[index].tiempoVida.length;index1++){
+                listaFragmentosHexa[index].tiempoVida="0"+listaFragmentosHexa[index].tiempoVida;
+            }
+        }
+
+        if(listaFragmentosHexa[index].protocolo.length<2){
+            for(let index1 =0;index1 <= 2-listaFragmentosHexa[index].protocolo.length;index1++){
+                listaFragmentosHexa[index].protocolo="0"+listaFragmentosHexa[index].protocolo;
+            }
+        }
+        if(listaFragmentosHexa[index].serviciosD.length<2){
+            for(let index1 =0;index1 <= 2-listaFragmentosHexa[index].serviciosD.length;index1++){
+                listaFragmentosHexa[index].serviciosD="0"+listaFragmentosHexa[index].serviciosD;
+            }
+        }
+       
+        if(listaFragmentosHexa[index].sumaComprobacion.length<4){
+            for(let index1 =0;index1 <= 4-listaFragmentosHexa[index].sumaComprobacion.length;index1++){
+                listaFragmentosHexa[index].sumaComprobacion="0"+listaFragmentosHexa[index].sumaComprobacion;
+            }
+        }
+       
+    }
+}
+
+
 
 
