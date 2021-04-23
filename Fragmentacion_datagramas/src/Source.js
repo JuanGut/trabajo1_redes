@@ -73,14 +73,14 @@ class Datagrama {
                  */
                 toString()
                 {
-                    return "Version :" +  this.version +  " Longitud del encabezado : " + this.longitudEncabezado 
-                            + " Servicios diferenciados : 0 " + "Longitud total : " + this.longitudDatagrama 
-                            + "\n"+ " Identificacion : " + this.identificacion + " Reservado : " + this.flag1 
-                            + " No fragmentar : " + this.flag2 + " Mas fragmentos : " + this.flag3 
-                            + " Desplazamiento : "+ this.desplazamiento + "\n"+ "Tiempo de vida : " 
-                            + this.tiempoVida + " Protocolo : " +this.protocolo + " Suma Comprobacion : " 
-                            + this.sumaComprobacion + "\n"+ "Direccion ip Origen : " + direccionOrigen 
-                            + " Direccion ip Destino : " + direccionDestino;
+                    return "Version :" +  this.version + "<br/>" + " Longitud del encabezado : " + this.longitudEncabezado + "<br/>"
+                            + " Servicios diferenciados : 0 " + "<br/>"+ "Longitud total : " + this.longitudDatagrama 
+                            + "<br/>"+ "Identificacion : " + this.identificacion + "<br/>"+ "Reservado : " + this.flag1 
+                            + "<br/>"+ "No fragmentar : " + this.flag2 + "<br/>"+ "Mas fragmentos : " + this.flag3 
+                            + "<br/>"+ " Desplazamiento : "+ this.desplazamiento + "<br/>"+ "Tiempo de vida : " 
+                            + this.tiempoVida + "<br/>"+ " Protocolo : " +this.protocolo + "<br/>"+ " Suma Comprobacion : " 
+                            + this.sumaComprobacion + "<br/>"+ "Direccion ip Origen : " + direccionOrigen 
+                            + "<br/>"+ "Direccion ip Destino : " + direccionDestino + "<br/>";
                 }  
     
     
@@ -106,7 +106,6 @@ function cargarDatos()
     desplazamiento = 0;
     protocolo = definirProticolo();
 
-    console.log("Hola mundo");
     validarFragmentacion();
 
 }
@@ -234,7 +233,10 @@ function encontrarSumaComprobacion()
 
         var suma=realizarSuma(arrayFracmentosSuma);
 
-        listaFragmentosHexa[i].sumaComprobacion=suma;
+        //listaFragmentos[i].sumaComprobacion = 
+        console.log("Suma comprobacion" + suma);
+        console.log( typeof(suma));
+        listaFragmentosHexa[i].sumaComprobacion=suma;   
 
         cadena="";
     }
@@ -296,7 +298,7 @@ function imprimirFragmentosDecimal()
        aux += "Datagrama " + (index+1) + "\n\n" + listaFragmentosDecimal[index] + "\n\n";
     }
     document.getElementById('campoDecimalParrafo').innerHTML = aux ;
-    console.log(aux);
+    //console.log(aux);
 }
 
 function imprimirFragmentobinario()
@@ -321,7 +323,7 @@ function imprimirFragmentobinario()
              + " Direccion ip Destino : " + direccionDestino; 
     }
         document.getElementById('campoBinarioParrafo').innerHTML = fragmentosB ;
-        console.log(fragmentosB);
+       // console.log(fragmentosB);
    
 
 }
@@ -454,13 +456,90 @@ function imprimirHexadecimal(){
     +listaFragmentosHexa[index].direccionDestino.substring(6,8)+ "\n";
     }
     document.getElementById('campoHexa').innerHTML = aux ;
-    console.log(aux); 
+    //console.log(aux); 
        
 
 }
 
+/**
+ * Metodo que transforma un numero hexadecimal en decimal
+ * @param {*} numeroHexadecimal 
+ * @returns Numero convertido a decimal
+ */
+function  transformarHexaADecimal(numeroHexadecimal)
+{
+    suma = mapa.get(cadena.charAt(0))*(16**3) + mapa.get(cadena.charAt(1))*(16**2) + mapa.get(cadena.charAt(2))*(16**1) + mapa.get(cadena.charAt(3));
+    return suma;
+}
+
+/**
+ * Metodo para generar valores de entrada aleatorios
+ */
+function generarAleatorio()
+{
+
+    
+    mtuAleatorio = Math.floor((Math.random() * (2000 - 0 + 1)) + 0);
+    longitudAleatorio =Math.floor((Math.random() * (2000 - 0 + 1)) + 0);
+    protocoloAleatorio = Math.floor((Math.random() * (2 - 0 + 1)) + 1);
 
 
 
+    oct1Origen= Math.floor((Math.random() * (254 - 1)) + 1);
+    oct2Origen= Math.floor((Math.random() * (254 - 0 + 1)) + 0);
+    oct3Origen= Math.floor((Math.random() * (254 - 0 + 1)) + 0);
+    oct4Origen= Math.floor((Math.random() * (254 - 0 + 1)) + 0);
+
+    origen = oct1Origen + "." + oct2Origen + "." + oct3Origen + "." + oct4Origen;
+    oct1Des= Math.floor((Math.random() * (254 - 1)) + 1);
+    oct2Des= Math.floor((Math.random() * (254 - 0 + 1)) + 0);
+    oct3Des= Math.floor((Math.random() * (254 - 0 + 1)) + 0);
+    oct4Des= Math.floor((Math.random() * (254 - 0 + 1)) + 0);
+
+    destino = oct1Des + "." + oct2Des + "." + oct3Des + "." + oct4Des;
 
 
+    document.getElementById("mtu").value = mtuAleatorio;
+    document.getElementById("longitudDatagrama").value = longitudAleatorio;
+    document.getElementById("direccionOrigen").value = origen;
+    document.getElementById("direccionDestino").value = destino;
+
+
+    if(protocoloAleatorio == 1)
+    {
+        console.log("entro1");
+        document.getElementById("ICMP").checked =  true;
+        
+    }
+    if(protocoloAleatorio == 2)
+    {
+        console.log("entro2");
+        document.getElementById("TCP").checked = true;
+    }
+    if(protocoloAleatorio == 3)
+    {
+        console.log("entro3");
+        document.getElementById("UDP").checked = true;
+    }
+}
+
+/**
+ * Metodo para imprimir en un componente div
+ */
+function imprimirPruebaDatos ()
+{
+    cadenaImpresion  = "<div class=\"contDatagramaDecimal\">";
+
+    for (let index = 0; index < listaFragmentosDecimal.length; index++) 
+    {
+       cadenaImpresion+= "<div class=\"cont-Decimal\"><div class=\"datagrama\"><p>"+"Datagrama " + index  +"</p> <br> <div class=\"infoDatagrama\">"
+       +listaFragmentosDecimal[index]+"</div></div></div>";
+        
+    }
+
+    cadenaImpresion+= "</div> <br/>";
+
+   document.getElementById('datos-decimal').innerHTML = cadenaImpresion;
+
+    //document.write(cadenaImpresion);
+}
