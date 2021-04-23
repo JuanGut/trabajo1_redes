@@ -7,7 +7,10 @@ var listaFragmentosBinario = new Array;
 var listaFragmentosDecimal = new Array;
 var listaFragmentosHexa= new Array;
 var transformacionBinario = [65536,32768,16384,8192,4096,2048,1024,512,256,128,64,32,16,8,4,2,1];
-
+var mapa = new Map();
+mapa.set("0" , 0); mapa.set("1" , 1);mapa.set("2" , 2);mapa.set("3" , 3);mapa.set("4" , 4);mapa.set("5" , 5);
+mapa.set("6" , 6);mapa.set("7" , 7);mapa.set("8" , 8);mapa.set("9" , 9);mapa.set("a" , 10);mapa.set("b" , 11);
+mapa.set("c" , 12);mapa.set("d" , 13);mapa.set("e" , 14);mapa.set("f" , 15);
 
 
 /**
@@ -178,12 +181,12 @@ function validarFragmentacion ()
         }
       
         
-        transformarFragmentoDecimal();
-        imprimirFragmentosDecimal();
-
         convertirAHexadecimal();
         completarHexadecimal();
         encontrarSumaComprobacion();
+        transformarFragmentoDecimal();
+        imprimirFragmentosDecimal();
+
         imprimirHexadecimal();
         imprimirFragmentobinario();
        
@@ -235,7 +238,7 @@ function encontrarSumaComprobacion()
 
         //listaFragmentos[i].sumaComprobacion = 
         console.log("Suma comprobacion" + suma);
-        console.log( typeof(suma));
+        listaFragmentos[i].sumaComprobacion = transformarHexaADecimal(suma);
         listaFragmentosHexa[i].sumaComprobacion=suma;   
 
         cadena="";
@@ -466,7 +469,7 @@ function imprimirHexadecimal(){
  * @param {*} numeroHexadecimal 
  * @returns Numero convertido a decimal
  */
-function  transformarHexaADecimal(numeroHexadecimal)
+function  transformarHexaADecimal(cadena)
 {
     suma = mapa.get(cadena.charAt(0))*(16**3) + mapa.get(cadena.charAt(1))*(16**2) + mapa.get(cadena.charAt(2))*(16**1) + mapa.get(cadena.charAt(3));
     return suma;
