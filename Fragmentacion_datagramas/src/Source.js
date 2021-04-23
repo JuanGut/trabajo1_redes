@@ -104,7 +104,7 @@ function cargarDatos()
     desplazamiento = 0;
     protocolo = definirProticolo();
 
-    console.log("Hola mundo")
+    console.log("Hola mundo");
     validarFragmentacion();
 
 }
@@ -182,6 +182,7 @@ function validarFragmentacion ()
 
         convertirAHexadecimal();
         completarHexadecimal();
+        encontrarSumaComprobacion();
         imprimirHexadecimal();
        
     }
@@ -213,68 +214,74 @@ function transformarFragmentoDecimal()
  * @param {Arraylist con cada parte del datagrama en formato hexadecimal} listaHexadecimal 
  * @returns suma de comprovacion 
  */
-function encontrarSumaComprobacion(listaHexadecimal)
+function encontrarSumaComprobacion()
 {
     var cadena="";
 
-    for(let i=0;i<listaHexadecimal.length;i++){
+    for(let i=0; i<listaFragmentosHexa.length;i++)
+    {
+        cadena+=listaFragmentosHexa[i].version +""+ listaFragmentosHexa[i].longitudEncabezado +"" + listaFragmentosHexa[i].serviciosD + ":" + listaFragmentosHexa[i].longitudDatagrama + ":"
+        + listaFragmentosHexa[i].identificacion + ":" + listaFragmentosHexa[i].desplazamiento + ":" + listaFragmentosHexa[i].tiempoVida 
+        + "" + listaFragmentosHexa[i].protocolo + ":" + listaFragmentosHexa[i].direccionOrigen.substring(0,4) + ":" + listaFragmentosHexa[i].direccionOrigen.substring(4) + ":" + listaFragmentosHexa[i].direccionDestino.substring(0,4)
+        + ":" + listaFragmentosHexa[i].direccionDestino.substring(4);
 
-        if((cadena.length%4)==0)
-        {
-            cadena+=":";
-        }
-        else
-        {
-            cadena+=listaHexadecimal[i];
-        }
+        console.log(cadena);
+
+        var arrayFracmentosSuma=cadena.split(":");
+
+        var suma=realizarSuma(arrayFracmentosSuma);
+
+        listaFragmentosHexa[i].sumaComprobacion=suma;
+
+        cadena="";
     }
-    var arrayFracmentosSuma=cadena.split(":");
-
-    var suma=realizarSuma(arrayFracmentosSuma);
-
-    return suma;
 
 
 }
 
 /**
  * Metodo para realizar la suma de comprobacion por medio del arraylist de 16 bits en cada posicion
- * @param {Arraylist dividido de a 16 bits por posicion } arrayFracmentosSuma 
+ * @param {Arraylist dividido de a 16 bits por posicion } arrayFragmentosSuma 
  * @returns La suma de comprobacion
  */
 
-function realizarSuma(arrayFracmentosSuma)
+function realizarSuma(arrayFragmentosSuma)
 {
-    for(var i=0;i<arrayFracmentosSuma-1;i++)
+    var sumaS="";
+    for(let i=0 ;i<arrayFragmentosSuma.length ;i++)
     {
-        if(arrayFracmentosSuma[i].length>4)
+        if(i<arrayFragmentosSuma.length-1)
         {
-            var fracmento=arrayFracmentosSuma[i];
+            var num1=parseInt(arrayFragmentosSuma[i],16);
+            var num2=parseInt(arrayFragmentosSuma[i+1],16);
+            var sum=num1 + num2;
+             /**console.log( num1+ "," + num2 + "," +sum.toString(16));
+             */
+            if(sum.toString(16).length>4)
+            {
+                sum=sum.toString(16);
+                var parte1=parseInt(sum.substring(0,1),16);
+                var parte2=parseInt(sum.substring(1),16);
+         
+                var suma=parte1+parte2;
+         
+                arrayFragmentosSuma[i+1]=suma.toString(16);
+            }
+            else
+            {
+                
+                arrayFragmentosSuma[i+1]=sum.toString(16);
+                
+            }
 
-            var parte1=fracmento.substring(0,1);
-            var parte2=fracmento.substring(1);
 
-            var suma=parte1+parte2;
+        }  
 
-            arrayFracmentosSuma[i]=suma;
-        }
-        else
-        {
-            var sum=arrayFracmentosSuma[i]+arrayFracmentosSuma[i+1];
-            arrayFracmentosSuma[i+1]=sum;
-        }
-
+         
     }
-    return arrayFracmentosSuma[arrayFracmentosSuma.length-1];
-}
-
-function convertirHexa(cadena)
-{
-    var hex = '';
-    for(let i=0;i<str.length;i++) {
-        hex += ''+str.charCodeAt(i).toString(16);
-    }
-    return hex;
+    sumaS=65535-parseInt(arrayFragmentosSuma[arrayFragmentosSuma.length-1],16); 
+    
+    return sumaS.toString(16);
 }
 function imprimirFragmentosDecimal()
 {
@@ -321,61 +328,6 @@ function  calcularBinario(version)
 		return cadena;
 }
 
-function convertirAHexadecimal(){
-    var longitudFragmentoHexa;
-    var protocoloHexa;
-    var direccionDestinoHexa="";
-    var direccionOrigenHexa="";
-    var identificacionHexa;
-    var tiempoVidaHexa;
-    var desplazamientoHexa;
-    var sumaComprobacionHexa;
-  
-    for (let index = 0; index<listaFragmentos.length; index++) 
-    {
-        longitudFragmentoHexa=listaFragmentos[index].longitudDatagrama.toString(16);
-        protocoloHexa=listaFragmentos[index].protocolo.toString(16);
-        var direccionDes=listaFragmentos[index].direccionDestino.split(".");
-        var direccionOrg=listaFragmentos[index].direccionOrigen.split(".");
-        console.log(direccionDes.length);
-        for(let index2=0; index2<direccionDes.length ; index2++){
-            direccionDestinoHexa+=direccionDes[index2].toString(16);
-            console.log(direccionDestinoHexa)
-            direccionOrigenHexa+=direccionOrg[index2].toString(16);
-        }
-        identificacionHexa=listaFragmentos[index].identificacion.toString(16);
-        tiempoVidaHexa=listaFragmentos[index].tiempoVida.toString(16);
-        desplazamientoHexa=listaFragmentos[index].desplazamiento.toString(16)
-        sumaComprobacionHexa=listaFragmentos[index].sumaComprobacion.toString(16);
-
-    }
-
-    datagrama = new Datagrama(longitudFragmentoHexa,protocoloHexa, direccionOrigenHexa,direccionDestinoHexa, identificacionHexa,
-    tiempoVidaHexa,flag1,flag2,flag3,desplazamientoHexa,sumaComprobacionHexa);
-
-    listaFragmentosHexa.push(datagrama);
-}
-
-function imprimirHexadecimal(){
-    var aux="";
-    for (let index = 0; index < listaFragmentosHexa.length; index++) 
-    {
-    aux="Datagrama "+(index+1)+":\n"+listaFragmentosHexa[index].version+""+listaFragmentosHexa[index].longitudEncabezado+" "
-    +listaFragmentosHexa[index].serviciosD+" "+listaFragmentosHexa[index].longitudDatagrama.substring(0,2)+" "
-    +listaFragmentosHexa[index].longitudDatagrama.substring(2,)+"\n"+listaFragmentosHexa[index].identificacion.substring(0,2)+ " "
-    +listaFragmentosHexa[index].identificacion.substring(2,)+" "+listaFragmentosHexa[index].desplazamiento.substring(0,2)+""
-    +listaFragmentosHexa[index].desplazamiento.substring(2,)+"\n"+listaFragmentosHexa[index].tiempoVida+" " +listaFragmentosHexa[index].protocolo+" "+listaFragmentosHexa[index].sumaComprobacion.substring(0,2)+" "
-    +listaFragmentosHexa[index].sumaComprobacion.substring(2,)+"\n"+listaFragmentosHexa[index].direccionOrigen.substring(0,2)+" "
-    +listaFragmentosHexa[index].direccionOrigen.substring(2,4)+" "+listaFragmentosHexa[index].direccionOrigen.substring(4,6)+" "
-    +listaFragmentosHexa[index].direccionOrigen.substring(6,)+"\n"+listaFragmentosHexa[index].direccionDestino.substring(0,2)+" "
-    +listaFragmentosHexa[index].direccionDestino.substring(2,4)+" "+listaFragmentosHexa[index].direccionDestino.substring(4,6)+" "
-    +listaFragmentosHexa[index].direccionDestino.substring(6,);
-
-    }
-    document.getElementById('campoHexa').innerHTML = aux ;
-    console.log(aux);    
-
-}
 function completarHexadecimal(){
     for (let index = 0; index < listaFragmentosHexa.length; index++) 
     {
@@ -390,7 +342,7 @@ function completarHexadecimal(){
             }
         }
         if(listaFragmentosHexa[index].desplazamiento.length<4){
-            for(let index1 =0;index1 <=4-listaFragmentosHexa[index].desplazamiento.length;index1++){
+            for(let index1 =0;index1 <4-listaFragmentosHexa[index].desplazamiento.length;index1){
                 listaFragmentosHexa[index].desplazamiento="0"+listaFragmentosHexa[index].desplazamiento;
             }
         }
@@ -412,13 +364,81 @@ function completarHexadecimal(){
         }
        
         if(listaFragmentosHexa[index].sumaComprobacion.length<4){
-            for(let index1 =0;index1 <= 4-listaFragmentosHexa[index].sumaComprobacion.length;index1++){
+            for(let index1 =0;index1 <4-listaFragmentosHexa[index].sumaComprobacion.length;index1){
                 listaFragmentosHexa[index].sumaComprobacion="0"+listaFragmentosHexa[index].sumaComprobacion;
             }
         }
        
     }
 }
+function convertirAHexadecimal(){
+    var longitudFragmentoHexa;
+    var protocoloHexa;
+    var direccionDestinoHexa="";
+    var direccionOrigenHexa="";
+    var identificacionHexa;
+    var tiempoVidaHexa;
+    var desplazamientoHexa;
+    var sumaComprobacionHexa;
+  
+    for (let index = 0; index<listaFragmentos.length; index++) 
+    {
+        longitudFragmentoHexa=listaFragmentos[index].longitudDatagrama.toString(16);
+        protocoloHexa=listaFragmentos[index].protocolo.toString(16);
+        var direccionDes=listaFragmentos[index].direccionDestino.split(".");
+        var direccionOrg=listaFragmentos[index].direccionOrigen.split(".");
+       
+        identificacionHexa=listaFragmentos[index].identificacion.toString(16);
+        tiempoVidaHexa=listaFragmentos[index].tiempoVida.toString(16);
+        desplazamientoHexa=listaFragmentos[index].desplazamiento.toString(16)
+        sumaComprobacionHexa=listaFragmentos[index].sumaComprobacion.toString(16);
+        for(let index2=0; index2<direccionDes.length ; index2++){
+            if(direccionDestinoHexa.length<=8){
+                if(direccionDes[index2].length==1){
+                direccionDestinoHexa+="0"+Number(direccionDes[index2]).toString(16);
+                }
+                else{
+                    direccionDestinoHexa+=Number(direccionDes[index2]).toString(16);
+                }
+                if(direccionOrg[index2].length==1){
+                    direccionOrigenHexa+="0"+Number(direccionOrg[index2]).toString(16);
+                }
+                else{
+                    direccionOrigenHexa+=Number(direccionOrg[index2]).toString(16);
+                }
+            }
+           
+        }
+        datagrama = new Datagrama(longitudFragmentoHexa,protocoloHexa, direccionOrigenHexa,direccionDestinoHexa, identificacionHexa,
+            tiempoVidaHexa,flag1,flag2,flag3,desplazamientoHexa,sumaComprobacionHexa);
+
+        listaFragmentosHexa.push(datagrama);
+    }
+
+   
+}
+function imprimirHexadecimal(){
+    var aux="";
+    for (let index = 0; index < listaFragmentosHexa.length; index++) 
+    {
+    aux+="Datagrama "+(index+1)+":\n"+listaFragmentosHexa[index].version+""+listaFragmentosHexa[index].longitudEncabezado+" "
+    +listaFragmentosHexa[index].serviciosD+" "+listaFragmentosHexa[index].longitudDatagrama.substring(0,2)+" "
+    +listaFragmentosHexa[index].longitudDatagrama.substring(2,)+"\n"+listaFragmentosHexa[index].identificacion.substring(0,2)+ " "
+    +listaFragmentosHexa[index].identificacion.substring(2,)+" "+listaFragmentosHexa[index].desplazamiento.substring(0,2)+" "
+    +listaFragmentosHexa[index].desplazamiento.substring(2,)+"\n"+listaFragmentosHexa[index].tiempoVida+" " +listaFragmentosHexa[index].protocolo+" "+listaFragmentosHexa[index].sumaComprobacion.substring(0,2)+" "
+    +listaFragmentosHexa[index].sumaComprobacion.substring(2,)+"\n"+listaFragmentosHexa[index].direccionOrigen.substring(0,2)+" "
+    +listaFragmentosHexa[index].direccionOrigen.substring(2,4)+" "+listaFragmentosHexa[index].direccionOrigen.substring(4,6)+" "
+    +listaFragmentosHexa[index].direccionOrigen.substring(6,8)+"\n"+listaFragmentosHexa[index].direccionDestino.substring(0,2)+" "
+    +listaFragmentosHexa[index].direccionDestino.substring(2,4)+" "+listaFragmentosHexa[index].direccionDestino.substring(4,6)+" "
+    +listaFragmentosHexa[index].direccionDestino.substring(6,8)+ "\n";
+    }
+    document.getElementById('campoHexa').innerHTML = aux ;
+    console.log(aux); 
+       
+
+}
+
+
 
 
 
