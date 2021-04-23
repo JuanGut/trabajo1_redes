@@ -6,7 +6,9 @@ var listaFragmentos = new Array;
 var listaFragmentosBinario = new Array;
 var listaFragmentosDecimal = new Array;
 var listaFragmentosHexa= new Array;
-var transformacionBinario = [128,64,32,16,8,4,2,1];
+var transformacionBinario = [65536,32768,16384,8192,4096,2048,1024,512,256,128,64,32,16,8,4,2,1];
+
+
 
 /**
  * Variables globales para la recoleccion de la informacion del datagrama inicial
@@ -184,6 +186,7 @@ function validarFragmentacion ()
         completarHexadecimal();
         encontrarSumaComprobacion();
         imprimirHexadecimal();
+        imprimirFragmentobinario();
        
     }
     // Definir el codigo para cuando no es necesario realizar una fragmentacion
@@ -293,40 +296,58 @@ function imprimirFragmentosDecimal()
        aux += "Datagrama " + (index+1) + "\n\n" + listaFragmentosDecimal[index] + "\n\n";
     }
     document.getElementById('campoDecimalParrafo').innerHTML = aux ;
-    console.log(aux)
+    console.log(aux);
 }
+
 function imprimirFragmentobinario()
 {
-    var fragmentosB;
-    for(let index = 0; index < listaFragmentos.length; index)
+    var fragmentosB = "";
+    for(let index = 0; index < listaFragmentos.length; index++)
     {
-        fragmentosB = listaFragmentos[index].version.calcularBinario +
-         listaFragmentos[index].longitudEncabezado.calcularBinario + 
-         listaFragmentos[index].longitudDatagrama.calcularBinario +
-         listaFragmentos[index].identificacion.calcularBinario  +
-         listaFragmentos[index].longitudEncabezado.calcularBinario + flag1 ;
+        fragmentosB += "\n Datagrama "+ index + " \n "+ "Version :"+calcularBinario(listaFragmentos[index].version, 4) +
+        " Longitud del encabezado : "+calcularBinario(listaFragmentos[index].longitudEncabezado, 4) + 
+        " Servicios diferenciados : 00000000 "+
+        " Longitud total : "+calcularBinario(listaFragmentos[index].longitudDatagrama, 16) +"\n"+
 
+        " Identificacion : "+calcularBinario(listaFragmentos[index].identificacion, 16)  +
+        " Reservado : "+listaFragmentos[index].flag1 + " No fragmentar : "+listaFragmentos[index].flag2 +
+          " Mas fragmentos : "+listaFragmentos[index].flag3+
+         " Desplazamiento : "+calcularBinario(listaFragmentos[index].desplazamiento, 13) +"\n"+
+
+         " Tiempo de vida : "+calcularBinario(listaFragmentos[index].tiempoVida, 8)  +
+         " Protocolo : "+calcularBinario(listaFragmentos[index].protocolo, 8) +
+         " Suma Comprobacion : "+calcularBinario(listaFragmentos[index].sumaComprobacion, 16) +"\n"
+        + " Direccion ip Origen : " + direccionOrigen 
+             + " Direccion ip Destino : " + direccionDestino; 
     }
+        document.getElementById('campoBinarioParrafo').innerHTML = fragmentosB ;
+        console.log(fragmentosB);
+   
+
 }
-function  calcularBinario(version)
-{
+function  calcularBinario(version,bits)
+	{
 		var sum = 0;
-		var cadena = "";
-		for(var i = 0 ; i < transformacion.length ;i++)
+		var cadena = ""; 
+
+		for(var i = (transformacionBinario.length - bits) ; i < transformacionBinario.length ;i++)
 		{
-			if((transformacion[i] + sum) <= decimal)
+			if((transformacionBinario[i] + sum) <= version)
 			{
-				sum += transformacion[i];
+				sum += transformacionBinario[i];
 				cadena+="1";
 			}
 			else
 			{
+                if((transformacionBinario.length-1)-i < bits)
+                {
 				cadena+="0";
+                }  
 			}
 		}
 		
 		return cadena;
-}
+	}
 
 function completarHexadecimal(){
     for (let index = 0; index < listaFragmentosHexa.length; index++) 
