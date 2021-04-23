@@ -68,7 +68,7 @@ class Datagrama {
     }
 
                 /**
-                 * Metodo para imprimir los valores de la clase Datagrama
+                 * Este Metodo para imprimir los valores de la clase Datagrama
                  * @returns Cadena con los atributos de la clase Datagrama
                  */
                 toString()
