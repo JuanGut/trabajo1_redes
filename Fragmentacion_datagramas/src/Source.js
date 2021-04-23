@@ -98,6 +98,9 @@ function cargarDatos()
 
     //Falta validar que los datos ingresados por el usuario sean correctos ej : Numeros, direccion Ip etc
     listaFragmentos.splice(0,listaFragmentos.length);
+    listaFragmentosBinario.splice(0,listaFragmentosBinario.length);
+    listaFragmentosDecimal.splice(0,listaFragmentosDecimal.length);
+    listaFragmentosHexa.splice(0,listaFragmentosHexa.length);
     let formularioEntrada = document.forms["datosInicio"];
     mtu = Number(formularioEntrada.mtu.value);
     longitudDatagrama = Number (formularioEntrada.longitudDatagrama.value);
@@ -191,9 +194,21 @@ function validarFragmentacion ()
         imprimirFragmentobinario();
        
     }
-    // Definir el codigo para cuando no es necesario realizar una fragmentacion
     else{
         
+        datagrama = new Datagrama(longitudDatagrama,protocolo, direccionOrigen,direccionDestino, identificacion,
+            tiempoVida , flag1, flag2,flag3, desplazamiento,sumaComprobacion);
+
+            listaFragmentos.push(datagrama);
+
+            convertirAHexadecimal();
+            completarHexadecimal();
+            encontrarSumaComprobacion();
+            transformarFragmentoDecimal();
+            imprimirFragmentosDecimal();
+
+            imprimirHexadecimal();
+            imprimirFragmentobinario();
 
     }
 }
@@ -227,17 +242,13 @@ function encontrarSumaComprobacion()
     {
         cadena+=listaFragmentosHexa[i].version +""+ listaFragmentosHexa[i].longitudEncabezado +"" + listaFragmentosHexa[i].serviciosD + ":" + listaFragmentosHexa[i].longitudDatagrama + ":"
         + listaFragmentosHexa[i].identificacion + ":" + listaFragmentosHexa[i].desplazamiento + ":" + listaFragmentosHexa[i].tiempoVida 
-        + "" + listaFragmentosHexa[i].protocolo + ":" + listaFragmentosHexa[i].direccionOrigen.substring(0,4) + ":" + listaFragmentosHexa[i].direccionOrigen.substring(4) + ":" + listaFragmentosHexa[i].direccionDestino.substring(0,4)
-        + ":" + listaFragmentosHexa[i].direccionDestino.substring(4);
-
-        console.log(cadena);
+        + "" + listaFragmentosHexa[i].protocolo + ":" + listaFragmentosHexa[i].direccionOrigen.substring(0,4) + ":" + listaFragmentosHexa[i].direccionOrigen.substring(4,8) + ":" + listaFragmentosHexa[i].direccionDestino.substring(0,4)
+        + ":" + listaFragmentosHexa[i].direccionDestino.substring(4,8);
 
         var arrayFracmentosSuma=cadena.split(":");
 
         var suma=realizarSuma(arrayFracmentosSuma);
 
-        //listaFragmentos[i].sumaComprobacion = 
-        console.log("Suma comprobacion" + suma);
         listaFragmentos[i].sumaComprobacion = transformarHexaADecimal(suma);
         listaFragmentosHexa[i].sumaComprobacion=suma;   
 
@@ -300,7 +311,10 @@ function imprimirFragmentosDecimal()
       
        aux += "Datagrama " + (index+1) + "\n\n" + listaFragmentosDecimal[index] + "\n\n";
     }
-    document.getElementById('campoDecimalParrafo').innerHTML = aux ;
+
+     var tex = imprimirlistaHtml(listaFragmentosDecimal);
+    //document.getElementById('campoDecimalParrafo').innerHTML = aux ;
+    document.getElementById("cont-decimal").innerHTML = tex;
     //console.log(aux);
 }
 
@@ -510,39 +524,37 @@ function generarAleatorio()
 
     if(protocoloAleatorio == 1)
     {
-        console.log("entro1");
         document.getElementById("ICMP").checked =  true;
         
     }
     if(protocoloAleatorio == 2)
     {
-        console.log("entro2");
         document.getElementById("TCP").checked = true;
     }
     if(protocoloAleatorio == 3)
     {
-        console.log("entro3");
+       
         document.getElementById("UDP").checked = true;
     }
 }
 
 /**
- * Metodo para imprimir en un componente div
+ * Metodo para imprimir fragmentos en el documento html
+ * @param {*} listaFragmentos Lista de fragmentos a imprimir 
+ * @returns Cadena con las etiquetas listas para ser indexados en el documento html
  */
-function imprimirPruebaDatos ()
-{
-    cadenaImpresion  = "<div class=\"contDatagramaDecimal\">";
-
-    for (let index = 0; index < listaFragmentosDecimal.length; index++) 
-    {
-       cadenaImpresion+= "<div class=\"cont-Decimal\"><div class=\"datagrama\"><p>"+"Datagrama " + index  +"</p> <br> <div class=\"infoDatagrama\">"
-       +listaFragmentosDecimal[index]+"</div></div></div>";
-        
-    }
-
-    cadenaImpresion+= "</div> <br/>";
-
-   document.getElementById('datos-decimal').innerHTML = cadenaImpresion;
-
-    //document.write(cadenaImpresion);
-}
+function imprimirlistaHtml(listaFragmentos)
+ {
+     console.log(listaFragmentos);
+    var nav = "<nav>"
+   var texto = "<scroll-container style=\"display: block;width: 350px; height: 200px; overflow-y: scroll; scroll-behavior: smooth;\">";
+        for (let index = 0; index < listaFragmentos.length; index++) {
+                
+            texto+="<scroll-page style=\"display: flex;align-items: left;justify-content: left;height: 100%;font-size: 11px;\" id=\""+"Datagrama"+index+"\">"+ listaFragmentos[index]+"</scroll-page>" 
+            nav += "<a style=\"width: 339px;padding: 5px;border: 1px solid black;\" href=\" #Datagrama"+index+"\">"+(index+1)+"</a>"
+            }
+           
+            texto+="</scroll-container>";
+            nav += "</nav>"
+            return nav + texto;
+ }
