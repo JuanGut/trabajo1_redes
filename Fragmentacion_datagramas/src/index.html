@@ -10,63 +10,66 @@
 
 <body>
 
-    <form name="datosInicio" class="datosI">
-        <label for="unidadMaximaTransferenciaRed">Unidad maxima de trasferencia de red (MTU):</label>
-        <input type="number" name ="mtu" id="mtu" placeholder="Mtu"/>
-        <br/>
-        <br/>
-        <label for="longitudTotalDatagrama">Longitud total del datagrama:</label>
-        <input type="number" name = "longitudDatagrama" id="longitudDatagrama" placeholder="Long.Datagrama"/>
-        <br/>
-        <br/>
-           
-        <label for="tipoProtocolo">Seleccione el tipo de protocolo de nivel superior:</label>
-        <br>
-        <input type="radio" id="ICMP" name="GrouprotocolNS" value="ICMP"/>
-        <label for="ICMP">ICMP</label><br/>
-        <input type="radio" id="TCP" name="GrouprotocolNS" value="TCP"/>
-        <label for="TCP">TCP</label><br/>
-        <input type="radio" id="UDP" name="GrouprotocolNS" value="UDP"/>
-        <label for="UDP">UDP</label><br/><br/>
+    <div class="primero">
+
+        <form name="datosInicio" class="datosI">
+            <label for="unidadMaximaTransferenciaRed">Unidad maxima de trasferencia de red (MTU):</label>
+            <input type="number" name ="mtu" id="mtu" placeholder="Mtu"/>
+            <br/>
+            <br/>
+            <label for="longitudTotalDatagrama">Longitud total del datagrama:</label>
+            <input type="number" name = "longitudDatagrama" id="longitudDatagrama" placeholder="Long.Datagrama"/>
+            <br/>
+            <br/>
+               
+            <label for="tipoProtocolo">Seleccione el tipo de protocolo de nivel superior:</label>
+            <br>
+            <input type="radio" id="ICMP" name="GrouprotocolNS" value="ICMP"/>
+            <label for="ICMP">ICMP</label><br/>
+            <input type="radio" id="TCP" name="GrouprotocolNS" value="TCP"/>
+            <label for="TCP">TCP</label><br/>
+            <input type="radio" id="UDP" name="GrouprotocolNS" value="UDP"/>
+            <label for="UDP">UDP</label><br/><br/>
+            
+            <label for="direccionIpOrigen">Dirección origen: </label>
+            <br/>
+            <input type="number" name ="primerOcteto" id="primerOcteto" placeholder="Primer Octeto"/>
+            <input type="number" name ="segundoOcteto" id="segundoOcteto" placeholder="Segundo Octeto"/>
+            <input type="number" name ="tercerOcteto" id="tercerOcteto" placeholder="Tercer Octeto"/>
+            <input type="number" name ="cuartoOcteto" id="cuartoOcteto" placeholder="Cuarto Octeto"/>
+            <br/>
+            <br/>
+            <label for="direccionIpDestino">Dirección destino: </label>
+            <br/>
+            <input type="number" name ="primerOctetoD" id="primerOctetoD" placeholder="Primer destino"/>
+            <input type="number" name ="segundoOctetoD" id="segundoOctetoD" placeholder="Segundo destino"/>
+            <input type="number" name ="tercerOctetoD" id="tercerOctetoD" placeholder="Tercer destino"/>
+            <input type="number" name ="cuartoOctetoD" id="cuartoOctetoD" placeholder="Cuarto destino"/>
+            <br/>
+            <br/> 
+            <br/>
+            <button type="button" onclick="generarAleatorio()" class="boton1">Generar aleatorios</button>
+            <br>
+            <br/>
+            <button type="button" onclick="cargarDatos()" class="boton1">Cargar datos</button>
+        </form>
+        <div class="divDecimalHexa">
+            <div id = "dec" class="dec">
+                <h4>Datagramas en decimal:</h4>
+                <br/>
+                <div id="cont-decimal" class="cont-decimal"> 
+                </div>   
+            </div>
+            <form name="DatosHexadecimal" class="datosH">
+                <label for="datagramaHexadecimal">Datagramas en Hexadecimal:</label>
+                <br/>
+                <label for="campoHexadecimal"></label>
+                <p id="campoHexa"></p>
+            </form>
+        </div>
+       
         
-        <label for="direccionIpOrigen">Dirección origen: </label>
-        <br/>
-        <input type="number" name ="primerOcteto" id="primerOcteto" placeholder="Primer Octeto"/>
-        <input type="number" name ="segundoOcteto" id="segundoOcteto" placeholder="Segundo Octeto"/>
-        <input type="number" name ="tercerOcteto" id="tercerOcteto" placeholder="Tercer Octeto"/>
-        <input type="number" name ="cuartoOcteto" id="cuartoOcteto" placeholder="Cuarto Octeto"/>
-        <br/>
-        <br/>
-        <label for="direccionIpDestino">Dirección destino: </label>
-        <br/>
-        <input type="number" name ="primerOctetoD" id="primerOctetoD" placeholder="Primer destino"/>
-        <input type="number" name ="segundoOctetoD" id="segundoOctetoD" placeholder="Segundo destino"/>
-        <input type="number" name ="tercerOctetoD" id="tercerOctetoD" placeholder="Tercer destino"/>
-        <input type="number" name ="cuartoOctetoD" id="cuartoOctetoD" placeholder="Cuarto destino"/>
-        <br/>
-        <br/> 
-        <br/>
-        <button type="button" onclick="generarAleatorio()" class="boton1">Generar aleatorios</button>
-        <br>
-        <br/>
-        <button type="button" onclick="cargarDatos()" class="boton1">Cargar datos</button>
-    </form>
-
-    
-    <form name="DatosDecimal" class="datosD">
-        <label for="datagramaDecimal">Datagramas en decimal:</label>
-        <br/>
-        <label for="campoDecimal"></label>
-        <div id="datos-decimal"></div>
-        <p id="campoDecimalParrafo"></p>
-    </form>
-
-    <form name="DatosHexadecimal" class="datosH">
-        <label for="datagramaHexadecimal">Datagramas en Hexadecimal:</label>
-        <br/>
-        <label for="campoHexadecimal"></label>
-        <p id="campoHexa"></p>
-    </form>
+    </div>
 
     <form name="DatosBinario" class="datosB">
         <label for="datagramaBinario">Datagramas en binario:</label>
@@ -75,7 +78,6 @@
         <p id="campoBinarioParrafo"></p>
     </form>
 
-    <div id = "cont-decimal" >
-    </div>
+    
 </body>
 </html>

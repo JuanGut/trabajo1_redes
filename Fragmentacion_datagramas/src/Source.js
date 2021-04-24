@@ -74,17 +74,17 @@ class Datagrama {
                  * Este Metodo para imprimir los valores de la clase Datagrama
                  * @returns Cadena con los atributos de la clase Datagrama
                  */
-                toString()
-                {
-                    return "Version :" +  this.version + "<br/>" + " Longitud del encabezado : " + this.longitudEncabezado + "<br/>"
-                            + " Servicios diferenciados : 0 " + "<br/>"+ "Longitud total : " + this.longitudDatagrama 
-                            + "<br/>"+ "Identificacion : " + this.identificacion + "<br/>"+ "Reservado : " + this.flag1 
-                            + "<br/>"+ "No fragmentar : " + this.flag2 + "<br/>"+ "Mas fragmentos : " + this.flag3 
-                            + "<br/>"+ " Desplazamiento : "+ this.desplazamiento + "<br/>"+ "Tiempo de vida : " 
-                            + this.tiempoVida + "<br/>"+ " Protocolo : " +this.protocolo + "<br/>"+ " Suma Comprobacion : " 
-                            + this.sumaComprobacion + "<br/>"+ "Direccion ip Origen : " + direccionOrigen 
-                            + "<br/>"+ "Direccion ip Destino : " + direccionDestino + "<br/>";
-                }  
+                 toString()
+                 {
+                     return "<p> <b>Version :</b>" +  this.version + "<b>Longitud del encabezado :</b>" + this.longitudEncabezado + "<br/>"
+                             + "<b>Servicios diferenciados :</b> 0" + "<b>Longitud total : </b>" + this.longitudDatagrama 
+                             + "<br/>"+ "<b>Identificacion : </b>" + this.identificacion + "<br/>"+ "<b>Reservado : </b>" + this.flag1 
+                             + "<br/>"+ "<b>No fragmentar : </b>" + this.flag2 + "<br/>"+ "<b>Mas fragmentos : </b>" + this.flag3 
+                             + "<br/>"+ "<b>Desplazamiento : </b>"+ this.desplazamiento + "<b>Tiempo de vida : </b>" 
+                             + this.tiempoVida + "<br/>"+ "<b>Protocolo : </b>" +this.protocolo + "<b>Suma Comprobacion : </b>" 
+                             + this.sumaComprobacion + "<br/>"+ "<b>Direccion ip Origen : </b>" + direccionOrigen 
+                             + "<br/>"+ "<b>Direccion ip Destino : </b>" + direccionDestino + "</p>";
+                 }   
     
     
 
@@ -295,7 +295,7 @@ function transformarFragmentoDecimal()
     datagrama = "";
     for (let index = 0; index < listaFragmentos.length; index++) 
     {
-       datagrama = listaFragmentos[index].toString();
+       datagrama = "<h3>Datagrama "+ (index+1)+ "</h3>"+listaFragmentos[index].toString();
        listaFragmentosDecimal.push(datagrama);
     }
 
@@ -376,15 +376,7 @@ function realizarSuma(arrayFragmentosSuma)
 function imprimirFragmentosDecimal()
 {
 
-    aux = "";
-    for (let index = 0; index < listaFragmentosDecimal.length; index++) 
-    {
-      
-       aux += "Datagrama " + (index+1) + "\n\n" + listaFragmentosDecimal[index] + "\n\n";
-    }
-
-     var tex = imprimirlistaHtml(listaFragmentosDecimal);
-    //document.getElementById('campoDecimalParrafo').innerHTML = aux ;
+    var tex = imprimirlistaHtml(listaFragmentosDecimal);
     document.getElementById("cont-decimal").innerHTML = tex;
     //console.log(aux);
 }
@@ -644,16 +636,15 @@ function generarAleatorio()
  */
 function imprimirlistaHtml(listaFragmentos)
  {
-     console.log(listaFragmentos);
-    var nav = "<nav>"
-   var texto = "<scroll-container style=\"display: block;width: 350px; height: 200px; overflow-y: scroll; scroll-behavior: smooth;\">";
-        for (let index = 0; index < listaFragmentos.length; index++) {
-                
-            texto+="<scroll-page style=\"display: flex;align-items: left;justify-content: left;height: 100%;font-size: 11px;\" id=\""+"Datagrama"+index+"\">"+ listaFragmentos[index]+"</scroll-page>" 
-            nav += "<a style=\"width: 339px;padding: 5px;border: 1px solid black;\" href=\" #Datagrama"+index+"\">"+(index+1)+"</a>"
-            }
-           
-            texto+="</scroll-container>";
-            nav += "</nav>"
-            return nav + texto;
+    var aux = "<link rel=\"stylesheet\" href=\"estiloSlider.css\"><ul class=\"slider\">";
+    var aux2 = "<ul class=\"menu\">";
+     
+    for (let index = 0; index < listaFragmentos.length; index++) {
+        
+        aux+= "<li id=\"slide"+index+"\">" + listaFragmentos[index] +"</li>";
+        aux2+=  "<li><a href=\"#slide"+ index+"\">"+index+"</a></li>";
+    }
+    aux += "</ul>";
+    aux2 += "</ul>";
+    return aux + aux2;
  }
