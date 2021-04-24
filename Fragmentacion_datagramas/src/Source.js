@@ -102,17 +102,84 @@ function cargarDatos()
     listaFragmentosDecimal.splice(0,listaFragmentosDecimal.length);
     listaFragmentosHexa.splice(0,listaFragmentosHexa.length);
     let formularioEntrada = document.forms["datosInicio"];
-    mtu = Number(formularioEntrada.mtu.value);
-    longitudDatagrama = Number (formularioEntrada.longitudDatagrama.value);
-    direccionOrigen = document.getElementById("direccionOrigen").value;
-    direccionDestino = document.getElementById("direccionDestino").value;
-    identificacion = Math.floor((Math.random() * (65535 - 0 + 1)) + 0);
-    tiempoVida = Math.floor((Math.random() * (255 - 0 + 1)) + 0);
-    longitudFragmento = 0;
-    desplazamiento = 0;
-    protocolo = definirProticolo();
+   var centinela = true;
+   
+    if(Number(formularioEntrada.mtu.value) >= 20 )
+    {
+        mtu = Number(formularioEntrada.mtu.value);//  que no sea negativo   
+    }
+        else 
+        {
+            centinela = false;
+            alert("El MTU tiene que ser un numero mayor a 20");
+        }
+    if(Number(formularioEntrada.longitudDatagrama.value) >= 20 )
+    {
+        longitudDatagrama = Number (formularioEntrada.longitudDatagrama.value);//  que no sea negativo   
+    }
+        else{
+            centinela = false;
+            alert("La longitud del datagrama tiene que ser mayor a 20");
+            }
+    if(document.getElementById("primerOcteto").value != "" && document.getElementById("segundoOcteto").value != "" 
+        && document.getElementById("tercerOcteto").value != "" && document.getElementById("cuartoOcteto").value != "")
+    {
+        if(Number(document.getElementById("primerOcteto").value) <= 255  && Number(document.getElementById("segundoOcteto").value)<=255 
+        && Number(document.getElementById("tercerOcteto").value) <= 255 && Number(document.getElementById("cuartoOcteto").value <= 255)
+        && Number(document.getElementById("primerOcteto").value) >= 0  && Number(document.getElementById("segundoOcteto").value) >= 0 
+        && Number(document.getElementById("tercerOcteto").value) >= 0 && Number(document.getElementById("cuartoOcteto").value >= 0)) 
+        {
+            direccionOrigen =document.getElementById("primerOcteto").value+"."+document.getElementById("segundoOcteto").value+"."+
+            document.getElementById("tercerOcteto").value+"."+document.getElementById("cuartoOcteto").value;
+        }
+        else 
+        {
+            centinela =false;
+            alert("Direccion origen : Cada octeto debe ser mayor o igual a 0 y menor  o igual a 255 ");
+        } 
+    
+    }
+        else{
+            centinela = false;
+            alert("Direccion origen : Cada octeto debe tener un numero de 0 a 255");
+            }
+    if(document.getElementById("primerOctetoD").value != "" && document.getElementById("segundoOctetoD").value != "" 
+    && document.getElementById("tercerOctetoD").value != "" && document.getElementById("cuartoOctetoD").value != "")
+    {
+        if(Number(document.getElementById("primerOctetoD").value) <= 255  && Number(document.getElementById("segundoOctetoD").value)<=255 
+        && Number(document.getElementById("tercerOctetoD").value) <= 255 && Number(document.getElementById("cuartoOctetoD").value <= 255) 
+        && Number(document.getElementById("primerOctetoD").value) >= 0  && Number(document.getElementById("segundoOctetoD").value) >= 0 
+        && Number(document.getElementById("tercerOctetoD").value) >= 0 && Number(document.getElementById("cuartoOctetoD").value >= 0))
+        {
+            
+        direccionDestino =document.getElementById("primerOctetoD").value+"."+document.getElementById("segundoOctetoD").value+"."+
+        document.getElementById("tercerOctetoD").value+"."+document.getElementById("cuartoOctetoD").value;
+        }
+        else {
+            centinela =false;
+            alert("Direccion destino : Cada octeto debe ser mayor o igual a 0 y menor  o igual a 255 ");
+            }
+    }
+    else{
+            centinela = false;
+            alert("Direccion destino : Cada octeto debe tener un numero de 0 a 255");
+        }
+       
+    if((definirProticolo()) == 0)
+    {
+    centinela = false;
+    alert("Debe seleccionar un protocolo para los datagramas");
+    }
 
-    validarFragmentacion();
+    if( centinela == true )
+    {
+        protocolo = definirProticolo();
+        identificacion = Math.floor((Math.random() * (65535 - 0 + 1)) + 0);
+        tiempoVida = Math.floor((Math.random() * (255 - 0 + 1)) + 0);
+        longitudFragmento = 0;
+        desplazamiento = 0;
+        validarFragmentacion();
+    }
 
 }
 
@@ -133,6 +200,10 @@ function definirProticolo ()
     if(document.getElementById("UDP").checked)
     {
         return 17;
+    }
+    else 
+    {
+        return 0;
     }
 }
 
@@ -539,8 +610,15 @@ function generarAleatorio()
 
     document.getElementById("mtu").value = mtuAleatorio;
     document.getElementById("longitudDatagrama").value = longitudAleatorio;
-    document.getElementById("direccionOrigen").value = origen;
-    document.getElementById("direccionDestino").value = destino;
+    document.getElementById("primerOcteto").value = oct1Origen;
+    document.getElementById("segundoOcteto").value = oct2Origen;
+    document.getElementById("tercerOcteto").value = oct3Origen;
+    document.getElementById("cuartoOcteto").value = oct4Origen;
+
+    document.getElementById("primerOctetoD").value = oct1Des;
+    document.getElementById("segundoOctetoD").value = oct2Des;
+    document.getElementById("tercerOctetoD").value = oct3Des;
+    document.getElementById("cuartoOctetoD").value = oct4Des;
 
 
     if(protocoloAleatorio == 1)
