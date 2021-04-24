@@ -318,32 +318,6 @@ function imprimirFragmentosDecimal()
     //console.log(aux);
 }
 
-function imprimirFragmentobinario()
-{
-    var fragmentosB = "";
-    for(let index = 0; index < listaFragmentos.length; index++)
-    {
-        fragmentosB += "\n Datagrama "+ index + " \n "+ "Version :"+calcularBinario(listaFragmentos[index].version, 4) +
-        " Longitud del encabezado : "+calcularBinario(listaFragmentos[index].longitudEncabezado, 4) + 
-        " Servicios diferenciados : 00000000 "+
-        " Longitud total : "+calcularBinario(listaFragmentos[index].longitudDatagrama, 16) +"\n"+
-
-        " Identificacion : "+calcularBinario(listaFragmentos[index].identificacion, 16)  +
-        " Reservado : "+listaFragmentos[index].flag1 + " No fragmentar : "+listaFragmentos[index].flag2 +
-          " Mas fragmentos : "+listaFragmentos[index].flag3+
-         " Desplazamiento : "+calcularBinario(listaFragmentos[index].desplazamiento, 13) +"\n"+
-
-         " Tiempo de vida : "+calcularBinario(listaFragmentos[index].tiempoVida, 8)  +
-         " Protocolo : "+calcularBinario(listaFragmentos[index].protocolo, 8) +
-         " Suma Comprobacion : "+calcularBinario(listaFragmentos[index].sumaComprobacion, 16) +"\n"
-        + " Direccion ip Origen : " + direccionOrigen 
-             + " Direccion ip Destino : " + direccionDestino; 
-    }
-        document.getElementById('campoBinarioParrafo').innerHTML = fragmentosB ;
-       // console.log(fragmentosB);
-   
-
-}
 function  calcularBinario(version,bits)
 	{
 		var sum = 0;
@@ -367,6 +341,53 @@ function  calcularBinario(version,bits)
 		
 		return cadena;
 	}
+    function imprimirFragmentobinario()
+{
+    
+    var fragmentosB = "";
+    for(let index = 0; index < listaFragmentos.length; index++)
+    {
+        var listDireccionesO=listaFragmentos[index].direccionOrigen.split(".");
+        var listDireccionesD=listaFragmentos[index].direccionDestino.split(".");
+
+        fragmentosB += "\n Datagrama "+ index + " \n "+calcularBinario(listaFragmentos[index].version, 4)+" "+
+        +calcularBinario(listaFragmentos[index].longitudEncabezado, 4) + " 00000000 "
+        +calcularBinario(listaFragmentos[index].longitudDatagrama, 16) +" \n "+
+
+          calcularBinario(listaFragmentos[index].identificacion, 16)  +" "+
+          listaFragmentos[index].flag1+" "+listaFragmentos[index].flag2 +" "+
+          listaFragmentos[index].flag3+" "+
+          calcularBinario(listaFragmentos[index].desplazamiento, 13) +" \n "+
+
+         calcularBinario(listaFragmentos[index].tiempoVida, 8)  +" "+
+         calcularBinario(listaFragmentos[index].protocolo, 8) +" "+
+         calcularBinario(listaFragmentos[index].sumaComprobacion, 16) +" \n "
+    
+         + calcularBinario(listDireccionesO[0], 8 )+"."+
+           calcularBinario(listDireccionesO[1], 8 )+"."+
+           calcularBinario(listDireccionesO[2], 8 )+"."+
+           calcularBinario(listDireccionesO[3], 8 )+ " \n  "+
+
+           calcularBinario(listDireccionesD[0], 8 )+"."+
+           calcularBinario(listDireccionesD[1], 8 )+"."+
+           calcularBinario(listDireccionesD[2], 8 )+"."+
+           calcularBinario(listDireccionesD[3], 8 ); 
+    }
+        document.getElementById('campoBinarioParrafo').innerHTML = fragmentosB ;
+        console.log(fragmentosB);
+   
+
+}
+
+
+
+
+
+
+
+
+
+
 
 function completarHexadecimal(){
     for (let index = 0; index < listaFragmentosHexa.length; index++) 
