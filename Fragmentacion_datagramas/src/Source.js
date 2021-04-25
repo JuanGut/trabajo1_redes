@@ -6,6 +6,7 @@ var listaFragmentos = new Array;
 var listaFragmentosBinario = new Array;
 var listaFragmentosDecimal = new Array;
 var listaFragmentosHexa= new Array;
+var listaImpresionHexa = new Array;
 var transformacionBinario = [65536,32768,16384,8192,4096,2048,1024,512,256,128,64,32,16,8,4,2,1];
 var mapa = new Map();
 mapa.set("0" , 0); mapa.set("1" , 1);mapa.set("2" , 2);mapa.set("3" , 3);mapa.set("4" , 4);mapa.set("5" , 5);
@@ -76,14 +77,14 @@ class Datagrama {
                  */
                  toString()
                  {
-                     return "<p> <b>Version :</b>" +  this.version + "<b>Longitud del encabezado :</b>" + this.longitudEncabezado + "<br/>"
-                             + "<b>Servicios diferenciados :</b> 0" + "<b>Longitud total : </b>" + this.longitudDatagrama 
-                             + "<br/>"+ "<b>Identificacion : </b>" + this.identificacion + "<br/>"+ "<b>Reservado : </b>" + this.flag1 
-                             + "<br/>"+ "<b>No fragmentar : </b>" + this.flag2 + "<br/>"+ "<b>Mas fragmentos : </b>" + this.flag3 
-                             + "<br/>"+ "<b>Desplazamiento : </b>"+ this.desplazamiento + "<b>Tiempo de vida : </b>" 
-                             + this.tiempoVida + "<br/>"+ "<b>Protocolo : </b>" +this.protocolo + "<b>Suma Comprobacion : </b>" 
-                             + this.sumaComprobacion + "<br/>"+ "<b>Direccion ip Origen : </b>" + direccionOrigen 
-                             + "<br/>"+ "<b>Direccion ip Destino : </b>" + direccionDestino + "</p>";
+                     return "<p> Version :" +  this.version + "Longitud del encabezado :" + this.longitudEncabezado + "<br/>"
+                             + "Servicios diferenciados : 0" + "<br>Longitud total : " + this.longitudDatagrama 
+                             + "<br/>"+ "Identificacion : " + this.identificacion + "<br/>"+ "Reservado : " + this.flag1 
+                             + "<br/>"+ "No fragmentar : " + this.flag2 + "<br/>"+ "Mas fragmentos : " + this.flag3 
+                             + "<br/>"+ "Desplazamiento : "+ this.desplazamiento + "<br/>Tiempo de vida : " 
+                             + this.tiempoVida + ""+ "Protocolo : " +this.protocolo + "<br/>Suma Comprobacion : " 
+                             + this.sumaComprobacion + "<br/>"+ "Direccion ip Origen : " + direccionOrigen 
+                             + "<br/>"+ "Direccion ip Destino : " + direccionDestino + "</p>";
                  }   
     
     
@@ -101,6 +102,7 @@ function cargarDatos()
     listaFragmentosBinario.splice(0,listaFragmentosBinario.length);
     listaFragmentosDecimal.splice(0,listaFragmentosDecimal.length);
     listaFragmentosHexa.splice(0,listaFragmentosHexa.length);
+    listaImpresionHexa.splice(0,listaImpresionHexa.length);
     let formularioEntrada = document.forms["datosInicio"];
    var centinela = true;
    
@@ -295,7 +297,7 @@ function transformarFragmentoDecimal()
     datagrama = "";
     for (let index = 0; index < listaFragmentos.length; index++) 
     {
-       datagrama = "<h3>Datagrama "+ (index+1)+ "</h3>"+listaFragmentos[index].toString();
+       datagrama = "<h5>Datagrama "+ (index+1)+ "</h5>"+listaFragmentos[index].toString();
        listaFragmentosDecimal.push(datagrama);
     }
 
@@ -376,7 +378,7 @@ function realizarSuma(arrayFragmentosSuma)
 function imprimirFragmentosDecimal()
 {
 
-    var tex = imprimirlistaHtml(listaFragmentosDecimal);
+    var tex = imprimirlistaHtml(listaFragmentosDecimal,"decimal");
     document.getElementById("cont-decimal").innerHTML = tex;
     //console.log(aux);
 }
@@ -441,16 +443,6 @@ function  calcularBinario(version,bits)
    
 
 }
-
-
-
-
-
-
-
-
-
-
 
 function completarHexadecimal(){
     for (let index = 0; index < listaFragmentosHexa.length; index++) 
@@ -545,7 +537,7 @@ function imprimirHexadecimal(){
     var aux="";
     for (let index = 0; index < listaFragmentosHexa.length; index++) 
     {
-    aux+="Datagrama "+(index+1)+":\n"+listaFragmentosHexa[index].version+""+listaFragmentosHexa[index].longitudEncabezado+" "
+    aux="Datagrama "+(index+1)+":\n"+listaFragmentosHexa[index].version+""+listaFragmentosHexa[index].longitudEncabezado+" "
     +listaFragmentosHexa[index].serviciosD+" "+listaFragmentosHexa[index].longitudDatagrama.substring(0,2)+" "
     +listaFragmentosHexa[index].longitudDatagrama.substring(2,)+"\n"+listaFragmentosHexa[index].identificacion.substring(0,2)+ " "
     +listaFragmentosHexa[index].identificacion.substring(2,)+" "+listaFragmentosHexa[index].desplazamiento.substring(0,2)+" "
@@ -555,8 +547,11 @@ function imprimirHexadecimal(){
     +listaFragmentosHexa[index].direccionOrigen.substring(6,8)+"\n"+listaFragmentosHexa[index].direccionDestino.substring(0,2)+" "
     +listaFragmentosHexa[index].direccionDestino.substring(2,4)+" "+listaFragmentosHexa[index].direccionDestino.substring(4,6)+" "
     +listaFragmentosHexa[index].direccionDestino.substring(6,8)+ "\n";
+
+    listaImpresionHexa.push(aux);
     }
-    document.getElementById('campoHexa').innerHTML = aux ;
+    html =imprimirlistaHtml(listaImpresionHexa , "hexa");
+    document.getElementById('cont-hexa').innerHTML = html ;
     //console.log(aux); 
        
 
@@ -634,15 +629,15 @@ function generarAleatorio()
  * @param {*} listaFragmentos Lista de fragmentos a imprimir 
  * @returns Cadena con las etiquetas listas para ser indexados en el documento html
  */
-function imprimirlistaHtml(listaFragmentos)
+function imprimirlistaHtml(listaFragmentos , definition)
  {
-    var aux = "<link rel=\"stylesheet\" href=\"estiloSlider.css\"><ul class=\"slider\">";
+    var aux = "<link rel=\"stylesheet\" href=\"estiloSlider.css\"><ul class=\"slider"+definition+"\">";
     var aux2 = "<ul class=\"menu\">";
      
     for (let index = 0; index < listaFragmentos.length; index++) {
         
-        aux+= "<li id=\"slide"+index+"\">" + listaFragmentos[index] +"</li>";
-        aux2+=  "<li><a href=\"#slide"+ index+"\">"+index+"</a></li>";
+        aux+= "<li id=\"slide"+definition+(index+1)+"\">" + listaFragmentos[index] +"</li>";
+        aux2+=  "<li><a href=\"#slide"+definition+ (index+1)+"\">"+(index+1)+"</a></li>";
     }
     aux += "</ul>";
     aux2 += "</ul>";

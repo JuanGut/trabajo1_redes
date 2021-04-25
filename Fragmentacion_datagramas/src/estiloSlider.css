@@ -4,12 +4,17 @@ ul, li {
     list-style: none;
     max-width: 300px;
     }
-    ul.slider{
+    ul.sliderdecimal{
     position: relative;
-    width: 800px;
-    height: 300px;
+    width: 300px;
+    height: 258px;
     }
-    ul.slider li {
+    ul.sliderhexa{
+      position: relative;
+      width: 300px;
+      height: 50px;
+      }
+    ul.sliderdecimal li ,ul.sliderhexa li {
   position: absolute;
   left: 0px;
   top: 0px;
@@ -19,35 +24,33 @@ ul, li {
   transition: opacity .5s;
   background:#fff;
     }
-    ul.slider li:target {
+    ul.sliderhexa li:target , ul.sliderdecimal li:target{
   opacity: 1; /*Mostramos el <li> del enlace que pulsemos*/
     }
 
     .menu{
-    text-align: center;
-    margin: 20px;
+      text-align: center;
+      margin: 20px;
+      margin-left: 0;
     }
     .menu li{
       display: inline-block;
       text-align: center;
     }
     .menu li a{
-    display: inline-block;
-    color: white;
-    text-decoration: none;
-    background-color: grey;
-    padding: 10px;
-    width: 20px;
-    height: 20px;
-    font-size: 20px;
-    border-radius: 100%;
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      background-color: grey;
+      padding: 10px;
+      width: 5px;
+      height: 5px;
+      font-size: 8px;
+      border-radius: 100%;
   }
-  ul.slider li:first-child {
+  ul.sliderdecimal li:first-child ,ul.sliderhexa li:first-child {
     opacity: 1; /*Mostramos el primer <li>*/
 }
 
-p{
-  font-size: 11px;
-  
-}
+
 
