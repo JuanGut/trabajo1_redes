@@ -7,6 +7,7 @@ var listaFragmentosBinario = new Array;
 var listaFragmentosDecimal = new Array;
 var listaFragmentosHexa= new Array;
 var listaImpresionHexa = new Array;
+var listaImpresionBinario = new Array;
 var transformacionBinario = [65536,32768,16384,8192,4096,2048,1024,512,256,128,64,32,16,8,4,2,1];
 var mapa = new Map();
 mapa.set("0" , 0); mapa.set("1" , 1);mapa.set("2" , 2);mapa.set("3" , 3);mapa.set("4" , 4);mapa.set("5" , 5);
@@ -103,6 +104,7 @@ function cargarDatos()
     listaFragmentosDecimal.splice(0,listaFragmentosDecimal.length);
     listaFragmentosHexa.splice(0,listaFragmentosHexa.length);
     listaImpresionHexa.splice(0,listaImpresionHexa.length);
+    listaImpresionBinario.splice(0,listaImpresionBinario.length);
     let formularioEntrada = document.forms["datosInicio"];
    var centinela = true;
    
@@ -415,7 +417,7 @@ function  calcularBinario(version,bits)
         var listDireccionesO=listaFragmentos[index].direccionOrigen.split(".");
         var listDireccionesD=listaFragmentos[index].direccionDestino.split(".");
 
-        fragmentosB += "\n Datagrama "+ index + " \n "+calcularBinario(listaFragmentos[index].version, 4)+" "+
+        fragmentosB = "\n Datagrama "+ index + " \n "+calcularBinario(listaFragmentos[index].version, 4)+" "+
         +calcularBinario(listaFragmentos[index].longitudEncabezado, 4) + " 00000000 "
         +calcularBinario(listaFragmentos[index].longitudDatagrama, 16) +" \n "+
 
@@ -437,8 +439,11 @@ function  calcularBinario(version,bits)
            calcularBinario(listDireccionesD[1], 8 )+"."+
            calcularBinario(listDireccionesD[2], 8 )+"."+
            calcularBinario(listDireccionesD[3], 8 ); 
+           listaImpresionBinario.push(fragmentosB);
     }
-        document.getElementById('campoBinarioParrafo').innerHTML = fragmentosB ;
+
+        var ul = imprimirlistaHtml(listaImpresionBinario,"binario");
+        document.getElementById('cont-binario').innerHTML = ul ;
         console.log(fragmentosB);
    
 

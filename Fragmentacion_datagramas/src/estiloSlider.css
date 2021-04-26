@@ -14,7 +14,13 @@ ul, li {
       width: 300px;
       height: 50px;
       }
-    ul.sliderdecimal li ,ul.sliderhexa li {
+
+      ul.sliderbinario{
+        position: relative;
+        width: 300px;
+        height: 110px;
+      }
+    ul.sliderdecimal li ,ul.sliderhexa li , ul.sliderbinario li {
   position: absolute;
   left: 0px;
   top: 0px;
@@ -24,7 +30,7 @@ ul, li {
   transition: opacity .5s;
   background:#fff;
     }
-    ul.sliderhexa li:target , ul.sliderdecimal li:target{
+    ul.sliderhexa li:target , ul.sliderdecimal li:target , ul.sliderbinario li:target{
   opacity: 1; /*Mostramos el <li> del enlace que pulsemos*/
     }
 
@@ -48,7 +54,7 @@ ul, li {
       font-size: 8px;
       border-radius: 100%;
   }
-  ul.sliderdecimal li:first-child ,ul.sliderhexa li:first-child {
+  ul.sliderdecimal li:first-child ,ul.sliderhexa li:first-child ,ul.sliderbinario li:first-child {
     opacity: 1; /*Mostramos el primer <li>*/
 }
 
