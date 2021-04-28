@@ -78,14 +78,14 @@ class Datagrama {
                  */
                  toString()
                  {
-                     return "<p> Version :" +  this.version + "Longitud del encabezado :" + this.longitudEncabezado + "<br/>"
+                     return "Version :" +  this.version + "<br>Longitud del encabezado :" + this.longitudEncabezado + "<br/>"
                              + "Servicios diferenciados : 0" + "<br>Longitud total : " + this.longitudDatagrama 
                              + "<br/>"+ "Identificacion : " + this.identificacion + "<br/>"+ "Reservado : " + this.flag1 
                              + "<br/>"+ "No fragmentar : " + this.flag2 + "<br/>"+ "Mas fragmentos : " + this.flag3 
                              + "<br/>"+ "Desplazamiento : "+ this.desplazamiento + "<br/>Tiempo de vida : " 
-                             + this.tiempoVida + ""+ "Protocolo : " +this.protocolo + "<br/>Suma Comprobacion : " 
+                             + this.tiempoVida + ""+ "<br>Protocolo : " +this.protocolo + "<br/>Suma Comprobacion : " 
                              + this.sumaComprobacion + "<br/>"+ "Direccion ip Origen : " + direccionOrigen 
-                             + "<br/>"+ "Direccion ip Destino : " + direccionDestino + "</p>";
+                             + "<br/>"+ "Direccion ip Destino : " + direccionDestino;
                  }   
     
     
@@ -299,7 +299,7 @@ function transformarFragmentoDecimal()
     datagrama = "";
     for (let index = 0; index < listaFragmentos.length; index++) 
     {
-       datagrama = "<h5>Datagrama "+ (index+1)+ "</h5>"+listaFragmentos[index].toString();
+       datagrama = "Datagrama :"+ (index+1)+"<br>" +listaFragmentos[index].toString();
        listaFragmentosDecimal.push(datagrama);
     }
 
@@ -417,27 +417,27 @@ function  calcularBinario(version,bits)
         var listDireccionesO=listaFragmentos[index].direccionOrigen.split(".");
         var listDireccionesD=listaFragmentos[index].direccionDestino.split(".");
 
-        fragmentosB = "\n Datagrama "+ index + " \n "+calcularBinario(listaFragmentos[index].version, 4)+" "+
-        +calcularBinario(listaFragmentos[index].longitudEncabezado, 4) + " 00000000 "
-        +calcularBinario(listaFragmentos[index].longitudDatagrama, 16) +" \n "+
+        fragmentosB = "\n Datagrama "+ (index+1) + "<br>"+calcularBinario(listaFragmentos[index].version, 4)+
+        +calcularBinario(listaFragmentos[index].longitudEncabezado, 4) + "00000000 "
+        +calcularBinario(listaFragmentos[index].longitudDatagrama, 16) +"<br>"+
 
-          calcularBinario(listaFragmentos[index].identificacion, 16)  +" "+
-          listaFragmentos[index].flag1+" "+listaFragmentos[index].flag2 +" "+
-          listaFragmentos[index].flag3+" "+
-          calcularBinario(listaFragmentos[index].desplazamiento, 13) +" \n "+
+          calcularBinario(listaFragmentos[index].identificacion, 16)  +
+          listaFragmentos[index].flag1+""+listaFragmentos[index].flag2 +
+          listaFragmentos[index].flag3+""+
+          calcularBinario(listaFragmentos[index].desplazamiento, 13) +"<br>"+
 
-         calcularBinario(listaFragmentos[index].tiempoVida, 8)  +" "+
-         calcularBinario(listaFragmentos[index].protocolo, 8) +" "+
-         calcularBinario(listaFragmentos[index].sumaComprobacion, 16) +" \n "
+         calcularBinario(listaFragmentos[index].tiempoVida, 8) +
+         calcularBinario(listaFragmentos[index].protocolo, 8) +
+         calcularBinario(listaFragmentos[index].sumaComprobacion, 16) +"<br>"
     
-         + calcularBinario(listDireccionesO[0], 8 )+"."+
-           calcularBinario(listDireccionesO[1], 8 )+"."+
-           calcularBinario(listDireccionesO[2], 8 )+"."+
-           calcularBinario(listDireccionesO[3], 8 )+ " \n  "+
+         + calcularBinario(listDireccionesO[0], 8 )+""+
+           calcularBinario(listDireccionesO[1], 8 )+""+
+           calcularBinario(listDireccionesO[2], 8 )+""+
+           calcularBinario(listDireccionesO[3], 8 )+ "<br>"+
 
-           calcularBinario(listDireccionesD[0], 8 )+"."+
-           calcularBinario(listDireccionesD[1], 8 )+"."+
-           calcularBinario(listDireccionesD[2], 8 )+"."+
+           calcularBinario(listDireccionesD[0], 8 )+""+
+           calcularBinario(listDireccionesD[1], 8 )+""+
+           calcularBinario(listDireccionesD[2], 8 )+""+
            calcularBinario(listDireccionesD[3], 8 ); 
            listaImpresionBinario.push(fragmentosB);
     }
@@ -542,7 +542,7 @@ function imprimirHexadecimal(){
     var aux="";
     for (let index = 0; index < listaFragmentosHexa.length; index++) 
     {
-    aux="Datagrama "+(index+1)+":\n"+listaFragmentosHexa[index].version+""+listaFragmentosHexa[index].longitudEncabezado+" "
+    aux="Datagrama "+(index+1)+": <br>"+listaFragmentosHexa[index].version+""+listaFragmentosHexa[index].longitudEncabezado+" "
     +listaFragmentosHexa[index].serviciosD+" "+listaFragmentosHexa[index].longitudDatagrama.substring(0,2)+" "
     +listaFragmentosHexa[index].longitudDatagrama.substring(2,)+"\n"+listaFragmentosHexa[index].identificacion.substring(0,2)+ " "
     +listaFragmentosHexa[index].identificacion.substring(2,)+" "+listaFragmentosHexa[index].desplazamiento.substring(0,2)+" "
