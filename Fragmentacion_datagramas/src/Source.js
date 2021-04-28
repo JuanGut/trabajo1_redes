@@ -1,4 +1,18 @@
 
+
+/**
+ * @author jpvalenzuela
+ * @author Ameneses
+ * @author Jgutierrez
+ * @author Ebohorquez
+ * @version 1.0
+ * 
+ */
+
+
+
+
+
 /**
  * Lista en donde se almacenas los fragmentos en caso de que exista fragmentacion
  */
