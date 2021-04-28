@@ -445,7 +445,7 @@ function  calcularBinario(version,bits)
         var listDireccionesD=listaFragmentos[index].direccionDestino.split(".");
 
         fragmentosB = "\n Datagrama "+ (index+1) + "<br>"+calcularBinario(listaFragmentos[index].version, 4)+
-        +calcularBinario(listaFragmentos[index].longitudEncabezado, 4) + "00000000 "
+        +calcularBinario(listaFragmentos[index].longitudEncabezado, 4) + "00000000"
         +calcularBinario(listaFragmentos[index].longitudDatagrama, 16) +"<br>"+
 
           calcularBinario(listaFragmentos[index].identificacion, 16)  +
