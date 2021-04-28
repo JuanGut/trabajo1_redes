@@ -374,8 +374,35 @@ function realizarSuma(arrayFragmentosSuma)
          
     }
     sumaS=65535-parseInt(arrayFragmentosSuma[arrayFragmentosSuma.length-1],16); 
-    
-    return sumaS.toString(16);
+    aux = "";
+    if(sumaS.toString(16).length<4)
+    {
+
+        aux1 = 4-sumaS.toString(16).length;
+        
+       if(aux1 == 1)
+       {
+            aux+="0";
+       }
+       if(aux1==2)
+       {
+        aux+="00";
+       }
+       if(aux1==3)
+       {
+        aux+="000";
+       }
+       if(aux1==4)
+       {
+        aux+="0000";
+       }
+        aux += sumaS.toString(16);
+        return aux;
+    }
+    else{
+       return sumaS.toString(16);
+    }
+
 }
 function imprimirFragmentosDecimal()
 {
@@ -444,7 +471,7 @@ function  calcularBinario(version,bits)
 
         var ul = imprimirlistaHtml(listaImpresionBinario,"binario");
         document.getElementById('cont-binario').innerHTML = ul ;
-        console.log(fragmentosB);
+       // console.log(fragmentosB);
    
 
 }
