@@ -562,8 +562,21 @@ function convertirAHexadecimal(){
                 else{
                     direccionDestinoHexa+=Number(direccionDes[index2]).toString(16);
                 }
-                if(direccionOrg[index2].length==1){
-                    direccionOrigenHexa+="0"+Number(direccionOrg[index2]).toString(16);
+                console.log(direccionOrg[index2].length + " Direccion origen")
+                if(direccionOrg[index2].length<=2){
+                    
+                    if(direccionOrg[index2].length==1)
+                    {
+                        direccionOrigenHexa+="0"+Number(direccionOrg[index2]).toString(16);
+                    }
+                    if(direccionOrg[index2]>=10 &&direccionOrg[index2]<=15)
+                    {
+                        direccionOrigenHexa+="0"+Number(direccionOrg[index2]).toString(16);
+                    }
+                    else{
+                        direccionOrigenHexa+=Number(direccionOrg[index2]).toString(16);
+                    }
+                    
                 }
                 else{
                     direccionOrigenHexa+=Number(direccionOrg[index2]).toString(16);
@@ -594,6 +607,7 @@ function imprimirHexadecimal(){
     +listaFragmentosHexa[index].direccionDestino.substring(2,4)+" "+listaFragmentosHexa[index].direccionDestino.substring(4,6)+" "
     +listaFragmentosHexa[index].direccionDestino.substring(6,8)+ "\n";
 
+    console.log(listaFragmentosHexa[index].direccionOrigen.substring(2,));
     listaImpresionHexa.push(aux);
     }
     html =imprimirlistaHtml(listaImpresionHexa , "hexa");
