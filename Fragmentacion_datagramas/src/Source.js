@@ -556,13 +556,24 @@ function convertirAHexadecimal(){
         sumaComprobacionHexa=listaFragmentos[index].sumaComprobacion.toString(16);
         for(let index2=0; index2<direccionDes.length ; index2++){
             if(direccionDestinoHexa.length<=8){
-                if(direccionDes[index2].length==1){
-                direccionDestinoHexa+="0"+Number(direccionDes[index2]).toString(16);
+                if(direccionDes[index2].length<=2){
+                    if(direccionDes[index2].length==1)
+                    {
+                        direccionDestinoHexa+="0"+Number(direccionDes[index2]).toString(16);
+                    }
+                    if(direccionDes[index2]>=10 &&direccionDes[index2]<=15)
+                    {
+                        direccionDestinoHexa+="0"+Number(direccionDes[index2]).toString(16);
+                    }
+                    else
+                    {
+                        direccionDestinoHexa+=Number(direccionDes[index2]).toString(16);
+                    }  
                 }
                 else{
                     direccionDestinoHexa+=Number(direccionDes[index2]).toString(16);
                 }
-                console.log(direccionOrg[index2].length + " Direccion origen")
+                
                 if(direccionOrg[index2].length<=2){
                     
                     if(direccionOrg[index2].length==1)
